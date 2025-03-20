@@ -1,5 +1,5 @@
 local assert = require("luassert")
-local html_to_md = require("nvim-devdocs.transpiler").html_to_md
+local html_to_md = require("devdocs.transpiler").html_to_md
 
 describe("Transpiler", function()
   local test_cases = {

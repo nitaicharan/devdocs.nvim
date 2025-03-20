@@ -3,13 +3,13 @@ local M = {}
 local job = require("plenary.job")
 local curl = require("plenary.curl")
 
-local fs = require("nvim-devdocs.fs")
-local log = require("nvim-devdocs.log")
-local list = require("nvim-devdocs.list")
-local state = require("nvim-devdocs.state")
-local build = require("nvim-devdocs.build")
-local config = require("nvim-devdocs.config")
-local keymaps = require("nvim-devdocs.keymaps")
+local fs = require("devdocs.fs")
+local log = require("devdocs.log")
+local list = require("devdocs.list")
+local state = require("devdocs.state")
+local build = require("devdocs.build")
+local config = require("devdocs.config")
+local keymaps = require("devdocs.keymaps")
 
 local devdocs_site_url = "https://devdocs.io"
 local devdocs_cdn_url = "https://documents.devdocs.io"

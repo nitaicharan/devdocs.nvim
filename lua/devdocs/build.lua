@@ -1,8 +1,8 @@
 local M = {}
 
-local fs = require("nvim-devdocs.fs")
-local log = require("nvim-devdocs.log")
-local transpiler = require("nvim-devdocs.transpiler")
+local fs = require("devdocs.fs")
+local log = require("devdocs.log")
+local transpiler = require("devdocs.transpiler")
 
 ---@param entry RegisteryEntry
 ---@param doc_index DocIndex

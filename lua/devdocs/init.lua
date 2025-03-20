@@ -1,13 +1,13 @@
 local M = {}
 
-local log = require("nvim-devdocs.log")
-local list = require("nvim-devdocs.list")
-local state = require("nvim-devdocs.state")
-local pickers = require("nvim-devdocs.pickers")
-local operations = require("nvim-devdocs.operations")
-local config = require("nvim-devdocs.config")
-local completion = require("nvim-devdocs.completion")
-local filetypes = require("nvim-devdocs.filetypes")
+local log = require("devdocs.log")
+local list = require("devdocs.list")
+local state = require("devdocs.state")
+local pickers = require("devdocs.pickers")
+local operations = require("devdocs.operations")
+local config = require("devdocs.config")
+local completion = require("devdocs.completion")
+local filetypes = require("devdocs.filetypes")
 
 M.fetch_registery = operations.fetch
 

@@ -1,6 +1,6 @@
 local M = {}
 
-local config = require("nvim-devdocs.config")
+local config = require("devdocs.config")
 
 local function set_buf_keymap(key, action, bufnr, description)
   vim.keymap.set("n", key, action, { buffer = bufnr, desc = description })

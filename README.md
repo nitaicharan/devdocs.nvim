@@ -1,14 +1,14 @@
-# nvim-devdocs
+# devdocs.nvim
 
-nvim-devdocs is a plugin which brings [DevDocs](https://devdocs.io) documentations into neovim. Install, search and preview documentations directly inside neovim in markdown format with telescope integration. You can also use custom commands like [glow](https://github.com/charmbracelet/glow) to render the markdown for a better experience.
+devdocs.nvim is a plugin which brings [DevDocs](https://devdocs.io) documentations into neovim. Install, search and preview documentations directly inside neovim in markdown format with telescope integration. You can also use custom commands like [glow](https://github.com/charmbracelet/glow) to render the markdown for a better experience.
 
 ## Preview
 
-![nvim-devdocs search](./.github/preview.png)
+![devdocs.nvim search](./.github/preview.png)
 
 Using [glow](https://github.com/charmbracelet/glow) for rendering markdown:
 
-![nvim-devdocs with glow](./.github/preview-glow.png)
+![devdocs.nvim with glow](./.github/preview-glow.png)
 
 ## Features
 
@@ -28,7 +28,7 @@ Lazy:
 
 ```lua
 return {
-  "luckasRanarison/nvim-devdocs",
+  "nitaicharan/devdocs.nvim",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope.nvim",
@@ -42,14 +42,14 @@ Packer:
 
 ```lua
 use {
-  "luckasRanarison/nvim-devdocs",
+  "nitaicharan/devdocs.nvim",
   requires = {
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope.nvim",
     "nvim-treesitter/nvim-treesitter",
   },
   config = function()
-    require("nvim-devdocs").setup()
+    require("devdocs").setup()
   end
 }
 ```
@@ -99,7 +99,7 @@ Here is the default configuration:
 
 ## Usage
 
-To use the documentations from nvim-devdocs, you need to install it by executing `:DevdocsInstall`. The documentation is indexed and built during the download. Since the building process is done synchronously and may block input, you may want to download larger documents (more than 10MB) in headless mode: `nvim --headless +"DevdocsInstall rust"`.
+To use the documentations from devdocs.nvim, you need to install it by executing `:DevdocsInstall`. The documentation is indexed and built during the download. Since the building process is done synchronously and may block input, you may want to download larger documents (more than 10MB) in headless mode: `nvim --headless +"DevdocsInstall rust"`.
 
 ## Commands
 
@@ -123,7 +123,7 @@ Commands support completion, and the Telescope picker will be used when no argum
 An `after_open` callback is supplied which accepts the buffer ID of the Devdocs window. It can be used for things like buffer-specific keymaps:
 
 ```lua
-require('nvim-devdocs').setup({
+require("devdocs").setup({
   -- ...
   after_open = function(bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Esc>', ':close<CR>', {})
@@ -139,7 +139,7 @@ require('nvim-devdocs').setup({
 
 ## Contributing
 
-The HTML converter is still experimental, and not all documentation has been thoroughly tested yet. If you encounter rendering issues, feel free to submit an [issue](https://github.com/luckasRanarison/nvim-devdocs/issues).
+The HTML converter is still experimental, and not all documentation has been thoroughly tested yet. If you encounter rendering issues, feel free to submit an [issue](https://github.com/nitaicharan/devdocs.nvim/issues).
 
 Pull requests and feature requests are welcome!
 

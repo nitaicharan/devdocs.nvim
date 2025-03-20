@@ -9,12 +9,12 @@ local action_state = require("telescope.actions.state")
 local config = require("telescope.config").values
 local entry_display = require("telescope.pickers.entry_display")
 
-local log = require("nvim-devdocs.log")
-local list = require("nvim-devdocs.list")
-local operations = require("nvim-devdocs.operations")
-local transpiler = require("nvim-devdocs.transpiler")
-local plugin_state = require("nvim-devdocs.state")
-local plugin_config = require("nvim-devdocs.config")
+local log = require("devdocs.log")
+local list = require("devdocs.list")
+local operations = require("devdocs.operations")
+local transpiler = require("devdocs.transpiler")
+local plugin_state = require("devdocs.state")
+local plugin_config = require("devdocs.config")
 
 local metadata_previewer = previewers.new_buffer_previewer({
   title = "Metadata",

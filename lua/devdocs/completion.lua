@@ -1,6 +1,6 @@
 local M = {}
 
-local list = require("nvim-devdocs.list")
+local list = require("devdocs.list")
 
 ---@param args string[]
 ---@param arg_lead string

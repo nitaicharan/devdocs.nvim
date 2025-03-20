@@ -1,7 +1,7 @@
 local M = {}
 
-local fs = require("nvim-devdocs.fs")
-local log = require("nvim-devdocs.log")
+local fs = require("devdocs.fs")
+local log = require("devdocs.log")
 
 ---@return string[]
 M.get_installed_alias = function()

@@ -1,7 +1,7 @@
 local M = {}
 
 local log = require("plenary.log").new({
-  plugin = "nvim-devdocs",
+  plugin = "devdocs",
   use_console = false, -- use vim.notify instead
   outfile = vim.fn.stdpath("data") .. "/devdocs/log.txt",
   fmt_msg = function(_, mode_name, src_path, src_line, message)
@@ -14,7 +14,7 @@ local log = require("plenary.log").new({
 }, false)
 
 local notify = vim.schedule_wrap(
-  function(message, level) vim.notify("[nvim-devdocs] " .. message, level) end
+  function(message, level) vim.notify("[devdocs.nvim] " .. message, level) end
 )
 
 M.debug = function(message)
