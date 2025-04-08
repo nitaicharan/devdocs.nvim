@@ -1,0 +1,11 @@
+---@class RegistryModel
+---@field name string
+---@field alias string
+---@field attribution string
+---@field db_size number
+---@field link table<string,string>
+---@field mtime number
+---@field release string
+---@field slug string
+---@field type string
+---@field version string
