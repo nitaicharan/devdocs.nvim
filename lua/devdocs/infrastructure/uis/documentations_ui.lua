@@ -19,6 +19,10 @@ return {
 
     local documentation = usecase.install(request, repository, registeries_repository, snacks_picker, id)
 
+    if documentation == nil then
+      return
+    end
+
     -- TODO: move it to a event listern about document creation
     entries_usecase.install(entries_request, entries_repository, documentation, id)
   end,
