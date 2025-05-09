@@ -1,24 +1,50 @@
 ---@class IDocumentationsUseCase
----@field install fun(request: IDocumentationsRequest, repository: IDocumentationsRepository, name: string): table<string, string>[] | nil
+---@field install fun(request: IDocumentationsRequest, repository: IDocumentationsRepository, registries_repository: IRegistriesRepository, picker: IPicker, id: string): table<string, string>[] | nil
 ---@field show fun(repository: IDocumentationsRepository, picker: IPicker, id: string)
 
 ---@type IDocumentationsUseCase
 return {
-  install = function(request, repository, id)
+  install = function(request, repository, registries_repository, picker, id)
+    id = id or ""
+
     assert(type(request) ~= "nil", "request param is required")
     assert(type(repository) ~= "nil", "repository param is required")
+    assert(type(registries_repository) ~= "nil", "registries_repository param is required")
+    assert(type(picker) ~= "nil", "picker param is required")
     assert(type(id) == "string", "id must be a string")
 
     local log_usecase = require("devdocs.application.usecases.log_usecase")
+    local registeries_usecase = require("devdocs.application.usecases.registries_usecase")
     log_usecase.debug("[documentations_usecase->install]:" .. vim.inspect({ id = id }))
 
-    local documentation = request.list(id)
-    if documentation == nil then
-      return
+
+    local callback = function(slug)
+      assert(type(slug) == "string", "slug must be a string")
+      -- assert(type(slug) == "string" and slug ~= "", "slug must be a non-empty string")
+
+
+      if slug == "" then
+        return;
+      end
+
+      log_usecase.debug("[documentations_usecase->callback]:" .. vim.inspect({ slug = slug }))
+
+      local documentation = request.list(slug)
+      if documentation == nil then
+        return
+      end
+
+      repository.save(documentation, slug)
+      return documentation;
     end
 
-    repository.save(documentation, id)
-    return documentation;
+    local regiestries = registeries_usecase.find(registries_repository)
+
+    if (id == "") then
+      picker.registries(callback, regiestries)
+    end
+
+    callback(id)
   end,
 
   show = function(repository, picker, id)

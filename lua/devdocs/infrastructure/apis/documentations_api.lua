@@ -26,8 +26,10 @@ local api = {
     local usecase = require("devdocs.application.usecases.documentations_usecase")
     local request = require("devdocs.infrastructure.requests.documentations_request")
     local repository = require("devdocs.infrastructure.repositories.documentations_repository")
+    local registries_repository = require("devdocs.infrastructure.repositories.registeries_repository")
+    local snack_picker = require("devdocs.infrastructure.pickers.snacks_picker")
 
-    usecase.install(request, repository, slug)
+    usecase.install(request, repository, registries_repository, snack_picker, slug)
   end,
 }
 

@@ -3,7 +3,7 @@
 ---@field alias string
 ---@field attribution string
 ---@field db_size number
----@field link table<string,string>
+---@field links table<string,string>
 ---@field mtime number
 ---@field release string
 ---@field slug string

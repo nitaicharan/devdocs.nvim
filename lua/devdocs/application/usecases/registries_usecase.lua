@@ -1,6 +1,6 @@
 ---@class IRegistriesUseCase
 ---@field install fun(request: IRegistriesRequest, repository: IRegistriesRepository)
----@field find fun(repository: IRegistriesRepository, name: string): RegistryModel | nil
+---@field find fun(repository: IRegistriesRepository): RegistryModel | nil
 
 ---@type IRegistriesUseCase
 return {
@@ -9,6 +9,8 @@ return {
     assert(type(repository) ~= "nil", "repository param is required")
 
     local log_usecase = require("devdocs.application.usecases.log_usecase")
+
+    log_usecase.debug("[registries_usecase->install]")
 
     local registery = repository.find()
     if registery ~= nil then
@@ -19,7 +21,13 @@ return {
     repository.save(data)
   end,
 
-  find = function(repository, name)
+  find = function(repository)
+    assert(type(repository) ~= "nil", "repository param is required")
+
+    local log_usecase = require("devdocs.application.usecases.log_usecase")
+
+    log_usecase.debug("[registries_usecase->find]")
+
     return repository.find()
   end
 }

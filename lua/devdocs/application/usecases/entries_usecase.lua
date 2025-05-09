@@ -18,18 +18,7 @@ return {
       return
     end
 
-    -- local result = vim.tbl_map(function(entry)
-    --   for key, value in pairs(documentation) do
-    --   end
-    --
-    --   local documentation_paths = vim.tbl_keys(documentation)
-    --   print(vim.inspect({ documentation_paths = documentation_paths, path = entry.path }))
-    --
-    --   -- local result = vim.tbl_extend("force", entry, { content = content })
-    --   return entry
-    -- end, entries)
-
-    -- repository.save(result, id)
+    repository.save(entries, id)
   end,
 
   find = function(id)

@@ -27,6 +27,7 @@ return {
 
     log_usecase.debug("[registry_repository->find]:" .. vim.inspect({ path = path }))
 
-    return file_util.read(path)
+    local registries = file_util.read(path)
+    return vim.fn.json_decode(registries)
   end
 }
