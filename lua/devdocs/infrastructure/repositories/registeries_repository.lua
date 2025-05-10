@@ -13,7 +13,7 @@ return {
 
     local path = file_util.joinpath(vim.fn.stdpath("data"), "devdocs", setup_config.plataform, "registry.json")
 
-    log_usecase.debug("[registry_repository->save]:" .. vim.inspect({ path = path }))
+    log_usecase.debug("[registries_repository->save]:" .. vim.inspect({ path = path }))
 
     file_util.write(path, vim.fn.json_encode(data))
   end,
@@ -25,9 +25,13 @@ return {
 
     local path = file_util.joinpath(vim.fn.stdpath("data"), "devdocs", setup_config.plataform, "registry.json")
 
-    log_usecase.debug("[registry_repository->find]:" .. vim.inspect({ path = path }))
+    log_usecase.debug("[registries_repository->find]:" .. vim.inspect({ path = path }))
 
     local registries = file_util.read(path)
+    if registries == nil then
+      return nil
+    end
+
     return vim.fn.json_decode(registries)
   end
 }

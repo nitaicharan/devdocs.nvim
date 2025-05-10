@@ -6,6 +6,9 @@ return {
     assert(type(registries_repository) ~= "nil", "registries_repository param is required")
 
     local registries_usecase = require("devdocs.application.usecases.registries_usecase")
+    local log_usecase = require("devdocs.application.usecases.log_usecase")
+
+    log_usecase.debug("[lifecycle_usecase->on_plugin_init]")
 
     registries_usecase.install(registries_request, registries_repository)
   end
