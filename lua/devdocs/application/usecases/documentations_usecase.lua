@@ -1,10 +1,10 @@
 ---@class IDocumentationsUseCase
----@field install fun(request: IDocumentationsRequest, repository: IDocumentationsRepository, registries_repository: IRegistriesRepository, picker: IPicker, id: string): table<string, string>[] | nil
+---@field install fun(request: IDocumentationsRequest, repository: IDocumentationsRepository, registries_repository: IRegistriesRepository, entries_request: IEntriesRequest, entries_repository: IEntriesRepository, picker: IPicker, id: string): table<string, string>[] | nil
 ---@field show fun(repository: IDocumentationsRepository, picker: IPicker, id: string)
 
 ---@type IDocumentationsUseCase
 return {
-  install = function(request, repository, registries_repository, picker, id)
+  install = function(request, repository, registries_repository, entries_request, entries_repository, picker, id)
     id = id or ""
 
     assert(type(request) ~= "nil", "request param is required")
@@ -15,6 +15,7 @@ return {
 
     local log_usecase = require("devdocs.application.usecases.log_usecase")
     local registeries_usecase = require("devdocs.application.usecases.registries_usecase")
+    local entries_usecase = require("devdocs.application.usecases.entries_usecase")
     log_usecase.debug("[documentations_usecase->install]:" .. vim.inspect({ id = id }))
 
 
@@ -29,22 +30,25 @@ return {
 
       log_usecase.debug("[documentations_usecase->callback]:" .. vim.inspect({ slug = slug }))
 
+      -- TODO check if it already installed before feching it
+      -- TODO make documentation installation in parallel
+      -- TODO notify user in case of a large documentation
+      -- TODO log in `warn` level in case of large documeantation
       local documentation = request.list(slug)
       if documentation == nil then
         return
       end
 
       repository.save(documentation, slug)
-      return documentation;
+      -- TODO: move it to a event listern about document creation
+      entries_usecase.install(entries_request, entries_repository, slug)
     end
 
     local regiestries = registeries_usecase.find(registries_repository)
 
     if (id == "") then
-      picker.registries(callback, regiestries)
+      id = picker.registries(callback, regiestries)
     end
-
-    callback(id)
   end,
 
   show = function(repository, picker, id)

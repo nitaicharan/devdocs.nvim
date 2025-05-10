@@ -24,7 +24,7 @@ return {
         confirm = function(picker, item)
           picker:close()
 
-          log_usecase.debug("[snacks_picker->show]:" .. vim.inspect({ item_path = item.path }))
+          log_usecase.debug("[snacks_picker->entries]:" .. vim.inspect({ path = item.path }))
 
           callback(item.path)
         end,
@@ -61,7 +61,7 @@ return {
         confirm = function(picker, item)
           picker:close()
 
-          log_usecase.debug("[snacks_picker->registries]:" .. vim.inspect({ item_slug = item.slug }))
+          log_usecase.debug("[snacks_picker->registries]:" .. vim.inspect({ slug = item.slug }))
 
           callback(item.slug)
         end,

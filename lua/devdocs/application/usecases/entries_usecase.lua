@@ -1,13 +1,12 @@
 ---@class IEntriesUseCase
----@field install fun(request: IEntriesRequest, repository: IEntriesRepository, documentation: table<string, string> | nil, slug: string)
+---@field install fun(request: IEntriesRequest, repository: IEntriesRepository, slug: string)
 ---@field find fun(slug: string): EntryModel[] | nil
 
 ---@type IEntriesUseCase
 return {
-  install = function(request, repository, documentation, id)
+  install = function(request, repository, id)
     assert(type(request) ~= "nil", "request param is required")
     assert(type(repository) ~= "nil", "repository param is required")
-    assert(type(documentation) ~= "nil", "documentation param is required")
     assert(type(id) == "string", "id must be a string")
 
     local log_usecase = require("devdocs.application.usecases.log_usecase")
