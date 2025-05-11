@@ -1,3 +1,4 @@
 ---@class IPicker
----@field entries fun(callback: fun(document_path: string),id: string, entries: EntryModel[])
----@field registries fun(callback: fun(document_slug: string), registries: RegistryModel[])
+---@field entries fun(callback: fun(document_path: EntryModel),id: string, models: EntryModel[])
+---@field registries fun(callback: fun(registry: RegistryModel), models: RegistryModel[])
+---@field locks fun(callback: fun(id: string), models: LockModel[])

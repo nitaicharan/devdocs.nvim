@@ -17,7 +17,7 @@ return {
       folder:mkdir({ parents = true })
     end
 
-    plenary:write(content, "w")
+    plenary:write(vim.fn.json_encode(content), "w")
   end,
 
   read = function(path)
@@ -30,7 +30,12 @@ return {
       return nil
     end
 
-    return plenary:read()
+    local data = plenary:read()
+    if data == nil then
+      return nil
+    end
+
+    return vim.fn.json_decode(data)
   end,
 
   joinpath = function(...)

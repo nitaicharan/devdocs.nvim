@@ -1,9 +1,9 @@
 ---@class IDocumentationsRequest
----@field list fun(slug: string): table<string,string>[] | nil
+---@field find fun(slug: string): table<string,string>[] | nil
 
 ---@type IDocumentationsRequest
 return {
-  list = function(id)
+  find = function(id)
     assert(type(id) == "string", "slug must be a string")
 
     local http_client = require("devdocs.infrastructure.clients.http_client")

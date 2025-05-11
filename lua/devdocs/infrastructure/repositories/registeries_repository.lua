@@ -1,6 +1,6 @@
 ---@class IRegistriesRepository
 ---@field save fun(registry: RegistryModel[])
----@field find fun(): RegistryModel | nil
+---@field list fun(): RegistryModel | nil
 
 ---@type IRegistriesRepository
 return {
@@ -15,10 +15,10 @@ return {
 
     log_usecase.debug("[registries_repository->save]:" .. vim.inspect({ path = path }))
 
-    file_util.write(path, vim.fn.json_encode(data))
+    file_util.write(path, data)
   end,
 
-  find = function()
+  list = function()
     local log_usecase = require("devdocs.application.usecases.log_usecase")
     local file_util = require("devdocs.infrastructure.utils.files_util")
     local setup_config = require("devdocs.domain.defaults.setup_config")
@@ -27,11 +27,6 @@ return {
 
     log_usecase.debug("[registries_repository->find]:" .. vim.inspect({ path = path }))
 
-    local registries = file_util.read(path)
-    if registries == nil then
-      return nil
-    end
-
-    return vim.fn.json_decode(registries)
+    return file_util.read(path)
   end
 }

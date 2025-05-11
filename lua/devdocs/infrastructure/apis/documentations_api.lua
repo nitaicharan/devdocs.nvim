@@ -13,7 +13,7 @@ local api = {
     local registries_usecase = require("devdocs.application.usecases.registries_usecase")
     local registries_repository = require("devdocs.infrastructure.repositories.registeries_repository")
 
-    local registry = registries_usecase.find(registries_repository, registery_name)
+    local registry = registries_usecase.list(registries_repository, registery_name)
 
     return vim.tbl_map(function(document)
       return document.slug

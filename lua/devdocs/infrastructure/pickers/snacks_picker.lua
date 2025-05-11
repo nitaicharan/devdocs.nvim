@@ -12,8 +12,9 @@ return {
 
     local items = {}
     for idx, item in ipairs(entries) do
-      local name = string.format("[%s]: %s", id, item.name)
-      table.insert(items, { idx = idx, text = name, path = item.path })
+      local text = string.format("[%s]: %s", id, item.name)
+      local result = vim.tbl_extend("force", item, { idx = idx, text = text })
+      table.insert(items, result)
     end
 
     snacks.picker.pick({
@@ -24,9 +25,9 @@ return {
         confirm = function(picker, item)
           picker:close()
 
-          log_usecase.debug("[snacks_picker->entries]:" .. vim.inspect({ path = item.path }))
+          log_usecase.debug("[snacks_picker->entries]:" .. vim.inspect({ item = item }))
 
-          callback(item.path)
+          callback(item)
         end,
       },
       preview = "none",
@@ -37,20 +38,13 @@ return {
     assert(type(registries) == "table", "registries must be a table")
 
     local log_usecase = require("devdocs.application.usecases.log_usecase")
-
     local snacks = require("snacks")
 
     local items = {}
     for idx, item in ipairs(registries) do
-      local name = string.format(
-        "[%s] version:%s slug:%s release:%s",
-        (item.name and item.name ~= "" and item.name) or "none",
-        (item.version and item.version ~= "" and item.version) or "none",
-        (item.slug and item.slug ~= "" and item.slug) or "none",
-        (item.release and item.release ~= "" and item.release) or "none"
-      )
-
-      table.insert(items, { idx = idx, text = name, slug = item.slug })
+      local text = string.format("[%s] version:%s", item.name, item.version)
+      local result = vim.tbl_extend("force", item, { idx = idx, text = text })
+      table.insert(items, result)
     end
 
     snacks.picker.pick({
@@ -61,9 +55,39 @@ return {
         confirm = function(picker, item)
           picker:close()
 
-          log_usecase.debug("[snacks_picker->registries]:" .. vim.inspect({ slug = item.slug }))
+          log_usecase.debug("[snacks_picker->confirm]:" .. vim.inspect({ slug = item.slug }))
 
-          callback(item.slug)
+          callback(item)
+        end,
+      },
+      preview = "none",
+    })
+  end,
+  locks = function(callback, models)
+    assert(type(callback) ~= "nil", "callback param is required")
+    assert(type(models) == "table", "models must be a table")
+
+    local log_usecase = require("devdocs.application.usecases.log_usecase")
+    local snacks = require("snacks")
+
+    local items = {}
+    for idx, item in ipairs(models) do
+      local text = string.format("[%s]: installed:%s updated:%s", item.name, item.installed_at, item.updated_at)
+      local result = vim.tbl_extend("force", item, { idx = idx, text = text })
+      table.insert(items, result)
+    end
+
+    snacks.picker.pick({
+      source = 'select',
+      items = items,
+      format = "text",
+      actions = {
+        confirm = function(picker, item)
+          picker:close()
+
+          log_usecase.debug("[snacks_picker->entries]:" .. vim.inspect({ item = item }))
+
+          callback(item)
         end,
       },
       preview = "none",

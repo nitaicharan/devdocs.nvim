@@ -17,7 +17,7 @@ return {
     log_usecase.debug("[entries_repository->save]:" .. vim.inspect({ path = path }))
 
     -- TODO: check be best way to change between adapters (factory or singleton partner)
-    file_util.write(path, vim.fn.json_encode(data))
+    file_util.write(path, data)
   end,
 
   find = function(id)

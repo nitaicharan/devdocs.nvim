@@ -1,0 +1,5 @@
+---@class LockModel
+---@field id string
+---@field name string
+---@field installed_at string
+---@field updated_at string

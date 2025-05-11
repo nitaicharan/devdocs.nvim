@@ -1,6 +1,6 @@
 ---@class IRegistriesUseCase
 ---@field install fun(request: IRegistriesRequest, repository: IRegistriesRepository)
----@field find fun(repository: IRegistriesRepository): RegistryModel | nil
+---@field list fun(repository: IRegistriesRepository): RegistryModel[] | nil
 
 ---@type IRegistriesUseCase
 return {
@@ -12,7 +12,7 @@ return {
 
     log_usecase.debug("[registries_usecase->install]")
 
-    local registery = repository.find()
+    local registery = repository.list()
     if registery ~= nil then
       return log_usecase.debug("[registries_usecase->install]: registery already installed")
     end
@@ -21,13 +21,13 @@ return {
     repository.save(data)
   end,
 
-  find = function(repository)
+  list = function(repository)
     assert(type(repository) ~= "nil", "repository param is required")
 
     local log_usecase = require("devdocs.application.usecases.log_usecase")
 
     log_usecase.debug("[registries_usecase->find]")
 
-    return repository.find()
+    return repository.list()
   end
 }

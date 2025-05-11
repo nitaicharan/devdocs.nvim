@@ -13,6 +13,7 @@ return {
     local entries_repository = require("devdocs.infrastructure.repositories.entries_repository")
     local snacks_picker = require("devdocs.infrastructure.pickers.snacks_picker")
     local registeries_repository = require("devdocs.infrastructure.repositories.registeries_repository")
+    local locks_repository = require("devdocs.infrastructure.repositories.locks_repository")
 
     log_usecase.debug("[documentations_ui->install]:" .. vim.inspect({ id = id }))
 
@@ -22,6 +23,7 @@ return {
       registeries_repository,
       entries_request,
       entries_repository,
+      locks_repository,
       snacks_picker,
       id
     )
@@ -31,14 +33,15 @@ return {
     end
   end,
 
-  show = function(name)
+  show = function(id)
     local log_usecase = require("devdocs.application.usecases.log_usecase")
     local usecase = require("devdocs.application.usecases.documentations_usecase")
     local repository = require("devdocs.infrastructure.repositories.documentations_repository")
     local snacks_picker = require("devdocs.infrastructure.pickers.snacks_picker")
+    local locks_repository = require("devdocs.infrastructure.repositories.locks_repository")
 
-    log_usecase.debug("[documentations_ui->show]:" .. vim.inspect({ id = name }))
+    log_usecase.debug("[documentations_ui->show]:" .. vim.inspect({ id = id }))
 
-    usecase.show(repository, snacks_picker, name)
+    usecase.show(repository, locks_repository, snacks_picker, id)
   end
 }

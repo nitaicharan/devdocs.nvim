@@ -1,0 +1,3 @@
+---@class ILocksRepository
+---@field save fun(data: {id: string, name: string})
+---@field list fun(): table<string,LockModel>[]
