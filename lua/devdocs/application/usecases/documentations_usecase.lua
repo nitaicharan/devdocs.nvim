@@ -95,7 +95,7 @@ return {
       picker.entries(callback, lock.id, entries)
     end
 
-    local result = locks_repository.list()
+    local result = locks_repository.list() or {}
     if (id == "") then
       return picker.locks(locks_callback, vim.tbl_values(result))
     end
