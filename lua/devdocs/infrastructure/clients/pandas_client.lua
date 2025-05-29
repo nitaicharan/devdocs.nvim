@@ -9,7 +9,7 @@ return {
     local transpile_command = {
       "pandoc",
       "--from", "html",
-      "--to", "gfm",
+      "--to", "gfm-raw_html",
       "--wrap", "none",
     }
 
