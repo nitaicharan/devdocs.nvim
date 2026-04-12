@@ -10,13 +10,13 @@ devdocs.nvim is a Neovim plugin that brings DevDocs.io documentation into Neovim
 
 ```bash
 # All tests
-nvim --headless -u test/init.lua -c "PlenaryBustedDirectory test/ { init='test/init.lua' }"
+nvim -l tests/minit.lua --minitest
 
-# Single test file
-nvim --headless -u test/init.lua -c "PlenaryBustedFile test/transpiler_spec.lua"
+# Specific test files
+nvim -l tests/minit.lua --minitest tests/usecases/*_spec.lua
 ```
 
-Tests use Plenary.nvim's Busted runner with `describe`/`it` blocks and `luassert`.
+Tests use lazy.minit with minitest runner, `describe`/`it` blocks and `luassert`.
 
 ## Linting and Formatting
 

@@ -1,6 +1,6 @@
 ---@class IDocumentationsUseCase
----@field install fun(request: IDocumentationsRequest, repository: IDocumentationsRepository, registries_repository: IRegistriesRepository, entries_request: IEntriesRequest, entries_repository: IEntriesRepository, locks_repository:ILocksRepository, picker: IPicker, id: string): table<string, string>[] | nil
----@field show fun(repository: IDocumentationsRepository, locks_repository:ILocksRepository, picker: IPicker, id: string)
+---@field install fun(request: IDocumentationsRequest, repository: IDocumentationsRepository, registries_repository: IRegistriesRepository, entries_request: IEntriesRequest, entries_repository: IEntriesRepository, locks_repository:ILocksRepository, picker: IPicker, id?: string): table<string, string>[] | nil
+---@field show fun(repository: IDocumentationsRepository, locks_repository:ILocksRepository, picker: IPicker, id?: string)
 
 ---@type IDocumentationsUseCase
 return {

@@ -1,6 +1,9 @@
 *.log
 /.repro
 /.tests
+tests/.testscache
+tests/.testsconfig
+tests/.testsdata
 /build
 /debug
 /doc/tags
