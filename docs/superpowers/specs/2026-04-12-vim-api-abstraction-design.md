@@ -1,4 +1,4 @@
-# Vim API Abstraction — Move vim.* Calls to Infrastructure Adapters
+# Vim API Abstraction — Move vim.\* Calls to Infrastructure Adapters
 
 ## Goal
 
@@ -10,11 +10,11 @@ Only actual Neovim API calls move. Pure Lua utilities (`vim.inspect`, `vim.split
 
 ## Current State
 
-| File | vim.* calls | Layer |
-|------|------------|-------|
+| File                                              | vim.\* calls                                                                             | Layer       |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------- | ----------- |
 | `application/usecases/documentations_usecase.lua` | `nvim_create_buf`, `nvim_buf_set_lines`, `nvim_set_option_value`, `nvim_set_current_buf` | application |
-| `application/usecases/log_usecase.lua` | `vim.schedule_wrap`, `vim.notify`, `vim.log.levels.*` | application |
-| `domain/defaults/setup_config.lua` | `vim.fn.stdpath("data")` | domain |
+| `application/usecases/log_usecase.lua`            | `vim.schedule_wrap`, `vim.notify`, `vim.log.levels.*`                                    | application |
+| `domain/defaults/setup_config.lua`                | `vim.fn.stdpath("data")`                                                                 | domain      |
 
 ## Design
 
