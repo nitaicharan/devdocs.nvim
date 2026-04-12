@@ -76,6 +76,57 @@ describe("entries_usecase", function()
     end)
   end)
 
+  describe("install_async", function()
+    it("fetches and saves entries asynchronously", function()
+      local mock_entries = { { name = "Array", path = "array" } }
+      local mock_request = {
+        list_async = function(slug, on_success) on_success(mock_entries) end,
+      }
+      local mock_repository = {
+        save = function(entries, id)
+          saved_entries = entries
+          saved_id = id
+        end,
+      }
+      local done_called = false
+
+      usecase.install_async(mock_request, mock_repository, "lua~5.4", function()
+        done_called = true
+      end)
+
+      assert.same(mock_entries, saved_entries)
+      assert.equals("lua~5.4", saved_id)
+      assert.is_true(done_called)
+    end)
+
+    it("calls on_done even when request returns nil", function()
+      local mock_request = { list_async = function(_, on_success) on_success(nil) end }
+      local mock_repository = { save = function() error("should not be called") end }
+      local done_called = false
+
+      usecase.install_async(mock_request, mock_repository, "lua~5.4", function()
+        done_called = true
+      end)
+
+      assert.is_true(done_called)
+    end)
+
+    it("works without on_done callback", function()
+      local mock_request = { list_async = function(_, on_success) on_success(nil) end }
+      local mock_repository = { save = function() end }
+
+      assert.has_no.errors(function()
+        usecase.install_async(mock_request, mock_repository, "lua~5.4")
+      end)
+    end)
+
+    it("asserts on nil request", function()
+      assert.has_error(function()
+        usecase.install_async(nil, {}, "lua~5.4")
+      end)
+    end)
+  end)
+
   describe("find", function()
     it("returns entries from repository", function()
       local result = usecase.find("lua~5.4")
