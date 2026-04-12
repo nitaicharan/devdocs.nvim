@@ -27,19 +27,21 @@ return make_logged("documentations_usecase", {
         return;
       end
 
-      -- TODO check if it already installed before feching it
-      -- TODO make documentation installation in parallel
-      -- TODO notify user in case of a large documentation
-      -- TODO log in `warn` level in case of large documeantation
-      local documentation = request.find(registry.slug)
-      if documentation == nil then
-        return
-      end
+      log_usecase.info(string.format("Installing %s documentation...", registry.name))
 
-      repository.save(documentation, registry.slug)
-      -- TODO: move it to a event listern about document creation
-      entries_usecase.install(entries_request, entries_repository, registry.slug)
-      locks_repository.save({ id = registry.slug, name = registry.name })
+      request.find_async(registry.slug, function(documentation)
+        if documentation == nil then
+          log_usecase.error(string.format("Failed to fetch %s documentation", registry.name))
+          return
+        end
+
+        repository.save(documentation, registry.slug)
+
+        entries_usecase.install_async(entries_request, entries_repository, registry.slug, function()
+          locks_repository.save({ id = registry.slug, name = registry.name })
+          log_usecase.info(string.format("%s documentation installed successfully", registry.name))
+        end)
+      end)
     end
 
     local registries = registeries_usecase.list(registries_repository)

@@ -38,6 +38,10 @@ describe("documentations_usecase", function()
       install = function(request, repository, slug)
         entries_install_args = { request = request, repository = repository, slug = slug }
       end,
+      install_async = function(request, repository, slug, on_done)
+        entries_install_args = { request = request, repository = repository, slug = slug }
+        if on_done then on_done() end
+      end,
       find = function(id)
         return { { name = "Array", path = "array#section", type = "Method" } }
       end,
@@ -66,7 +70,7 @@ describe("documentations_usecase", function()
 
     it("fetches, saves doc, installs entries, and saves lock via picker callback", function()
       local mock_doc = { html = "<h1>Lua</h1>" }
-      local mock_request = { find = function() return mock_doc end }
+      local mock_request = { find_async = function(slug, on_success) on_success(mock_doc) end }
       local mock_repository = {
         save = function(doc, slug)
           saved_doc_args = { doc = doc, slug = slug }
@@ -100,8 +104,8 @@ describe("documentations_usecase", function()
       assert.equals("lua~5.4", entries_install_args.slug)
     end)
 
-    it("returns early when request.find returns nil", function()
-      local mock_request = { find = function() return nil end }
+    it("returns early when request.find_async returns nil", function()
+      local mock_request = { find_async = function(slug, on_success) on_success(nil) end }
       local mock_repository = {
         save = function() error("should not be called") end,
       }
@@ -123,7 +127,7 @@ describe("documentations_usecase", function()
     end)
 
     it("delegates to picker when no id given", function()
-      local mock_request = { find = function() end }
+      local mock_request = { find_async = function() end }
       local mock_repository = { save = function() end }
       local mock_registries_repository = { list = function() end }
       local mock_locks_repository = { save = function() end }
@@ -151,7 +155,7 @@ describe("documentations_usecase", function()
       package.loaded["devdocs.application.usecases.documentations_usecase"] = nil
       usecase = require("devdocs.application.usecases.documentations_usecase")
 
-      local mock_request = { find = function() end }
+      local mock_request = { find_async = function() end }
       local mock_repository = { save = function() end }
       local mock_registries_repository = { list = function() end }
       local mock_locks_repository = { save = function() end }
@@ -164,6 +168,33 @@ describe("documentations_usecase", function()
       )
 
       assert.equals("Registries not found!", log_error_message)
+    end)
+
+    it("notifies user when installation starts", function()
+      local info_messages = {}
+      package.loaded["devdocs.application.usecases.log_usecase"].info = function(msg)
+        table.insert(info_messages, msg)
+      end
+      package.loaded["devdocs.application.usecases.documentations_usecase"] = nil
+      usecase = require("devdocs.application.usecases.documentations_usecase")
+
+      local mock_request = { find_async = function() end }
+      local mock_repository = { save = function() end }
+      local mock_registries_repository = { list = function() end }
+      local mock_locks_repository = { save = function() end }
+      local mock_picker = {
+        registries = function(callback)
+          callback({ slug = "lua~5.4", name = "Lua" })
+        end,
+      }
+
+      usecase.install(
+        mock_request, mock_repository, mock_registries_repository,
+        mock_entries_request, mock_entries_repository, mock_locks_repository,
+        mock_picker
+      )
+
+      assert.equals("Installing Lua documentation...", info_messages[1])
     end)
 
     it("asserts on nil request", function()
