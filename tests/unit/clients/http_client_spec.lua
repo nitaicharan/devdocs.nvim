@@ -31,7 +31,7 @@ describe("http_client", function()
       http_client.get_async("https://example.com", cb)
 
       assert.equals("https://example.com", captured_url)
-      assert.equals(cb, captured_options.callback)
+      assert.is_function(captured_options.callback)
     end)
 
     it("merges additional options with callback", function()

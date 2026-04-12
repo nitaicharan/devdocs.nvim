@@ -20,7 +20,7 @@ return make_logged("http_client", {
 
     local curl = require("plenary.curl")
     options = options or {}
-    options.callback = callback
+    options.callback = vim.schedule_wrap(callback)
 
     curl.get(url, options)
   end,
