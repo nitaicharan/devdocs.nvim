@@ -4,11 +4,7 @@
 ---@field warn fun(message: string)
 ---@field error fun(message: string)
 
-local notify = vim.schedule_wrap(
-  function(message, level)
-    vim.notify(message, level)
-  end
-)
+local notifier = require("devdocs.infrastructure.adapters.notifier")
 
 ---@type ILogUseCase
 return {
@@ -18,18 +14,18 @@ return {
       return
     end
 
-    notify(message, vim.log.levels.DEBUG)
+    notifier.notify(message, notifier.levels.DEBUG)
   end,
 
   info = function(message)
-    notify(message, vim.log.levels.INFO)
+    notifier.notify(message, notifier.levels.INFO)
   end,
 
   warn = function(message)
-    notify(message, vim.log.levels.WARN)
+    notifier.notify(message, notifier.levels.WARN)
   end,
 
   error = function(message)
-    notify(message, vim.log.levels.ERROR)
+    notifier.notify(message, notifier.levels.ERROR)
   end
 }

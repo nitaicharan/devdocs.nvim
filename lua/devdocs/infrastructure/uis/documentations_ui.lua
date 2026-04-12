@@ -42,6 +42,8 @@ return {
 
     log_usecase.debug("[documentations_ui->show]:" .. vim.inspect({ id = id }))
 
-    usecase.show(repository, locks_repository, snacks_picker, id)
+    local buffer = require("devdocs.infrastructure.adapters.buffer")
+
+    usecase.show(repository, locks_repository, snacks_picker, buffer, id)
   end
 }

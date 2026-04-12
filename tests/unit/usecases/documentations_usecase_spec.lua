@@ -9,9 +9,7 @@ describe("documentations_usecase", function()
   local picker_locks_args
   local picker_entries_args
   local log_error_message
-  local buf_lines
-  local buf_filetype
-  local created_buf
+  local buffer_calls
 
   before_each(function()
     saved_doc_args = nil
@@ -21,9 +19,7 @@ describe("documentations_usecase", function()
     picker_locks_args = nil
     picker_entries_args = nil
     log_error_message = nil
-    buf_lines = nil
-    buf_filetype = nil
-    created_buf = 42
+    buffer_calls = {}
 
     package.loaded["devdocs.application.usecases.log_usecase"] = {
       debug = function() end,
@@ -189,23 +185,15 @@ describe("documentations_usecase", function()
   end)
 
   describe("show", function()
-    local original_create_buf
-    local original_buf_set_lines
-    local original_set_option_value
-    local original_set_current_buf
+    local mock_buffer
 
     before_each(function()
-      original_create_buf = vim.api.nvim_create_buf
-      original_buf_set_lines = vim.api.nvim_buf_set_lines
-      original_set_option_value = vim.api.nvim_set_option_value
-      original_set_current_buf = vim.api.nvim_set_current_buf
-    end)
-
-    after_each(function()
-      vim.api.nvim_create_buf = original_create_buf
-      vim.api.nvim_buf_set_lines = original_buf_set_lines
-      vim.api.nvim_set_option_value = original_set_option_value
-      vim.api.nvim_set_current_buf = original_set_current_buf
+      mock_buffer = {
+        create_scratch_buffer = function(lines, filetype)
+          table.insert(buffer_calls, { lines = lines, filetype = filetype })
+          return 42
+        end,
+      }
     end)
 
     it("delegates to picker.locks when no id given", function()
@@ -221,7 +209,7 @@ describe("documentations_usecase", function()
         end,
       }
 
-      usecase.show(mock_repository, mock_locks_repository, mock_picker)
+      usecase.show(mock_repository, mock_locks_repository, mock_picker, mock_buffer)
 
       assert.is_not_nil(picker_locks_args)
       assert.equals(1, #picker_locks_args.locks)
@@ -243,7 +231,7 @@ describe("documentations_usecase", function()
         end,
       }
 
-      usecase.show(mock_repository, mock_locks_repository, mock_picker)
+      usecase.show(mock_repository, mock_locks_repository, mock_picker, mock_buffer)
 
       assert.is_not_nil(picker_entries_args)
       assert.equals("lua~5.4", picker_entries_args.id)
@@ -251,15 +239,6 @@ describe("documentations_usecase", function()
     end)
 
     it("entry callback reads document and creates buffer", function()
-      vim.api.nvim_create_buf = function() return created_buf end
-      vim.api.nvim_buf_set_lines = function(buf, start, finish, strict, lines)
-        buf_lines = { buf = buf, lines = lines }
-      end
-      vim.api.nvim_set_option_value = function(key, value, opts)
-        if key == "filetype" then buf_filetype = value end
-      end
-      vim.api.nvim_set_current_buf = function() end
-
       local mock_repository = {
         find = function() return "# Lua\n\nContent here" end,
       }
@@ -277,11 +256,11 @@ describe("documentations_usecase", function()
         end,
       }
 
-      usecase.show(mock_repository, mock_locks_repository, mock_picker)
+      usecase.show(mock_repository, mock_locks_repository, mock_picker, mock_buffer)
 
-      assert.equals(created_buf, buf_lines.buf)
-      assert.same({ "# Lua", "", "Content here" }, buf_lines.lines)
-      assert.equals("markdown", buf_filetype)
+      assert.equals(1, #buffer_calls)
+      assert.same({ "# Lua", "", "Content here" }, buffer_calls[1].lines)
+      assert.equals("markdown", buffer_calls[1].filetype)
     end)
 
     it("locks callback errors when entries not found", function()
@@ -306,14 +285,20 @@ describe("documentations_usecase", function()
         entries = function() error("should not be called") end,
       }
 
-      usecase.show(mock_repository, mock_locks_repository, mock_picker)
+      usecase.show(mock_repository, mock_locks_repository, mock_picker, mock_buffer)
 
       assert.is_not_nil(log_error_message)
     end)
 
     it("asserts on nil repository", function()
       assert.has_error(function()
-        usecase.show(nil, {}, {})
+        usecase.show(nil, {}, {}, mock_buffer)
+      end)
+    end)
+
+    it("asserts on nil buffer", function()
+      assert.has_error(function()
+        usecase.show({}, {}, {}, nil)
       end)
     end)
   end)

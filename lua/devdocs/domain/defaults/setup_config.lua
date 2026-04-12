@@ -1,7 +1,7 @@
 return {
   debug_mode = false,
   plataform = "devdocs",
-  dir_path = vim.fn.stdpath("data") .. "/devdocs",
+  dir_path = require("devdocs.infrastructure.adapters.path").stdpath("data") .. "/devdocs",
   telescope = {},
   filetypes = {},
   float_win = {

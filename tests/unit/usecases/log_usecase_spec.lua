@@ -3,17 +3,16 @@ local assert = require("luassert")
 describe("log_usecase", function()
   local usecase
   local notify_calls
-  local original_schedule_wrap
 
   before_each(function()
     notify_calls = {}
 
-    vim.notify = function(message, level)
-      table.insert(notify_calls, { message = message, level = level })
-    end
-
-    original_schedule_wrap = vim.schedule_wrap
-    vim.schedule_wrap = function(fn) return fn end
+    package.loaded["devdocs.infrastructure.adapters.notifier"] = {
+      notify = function(message, level)
+        table.insert(notify_calls, { message = message, level = level })
+      end,
+      levels = vim.log.levels,
+    }
 
     package.loaded["devdocs.domain.defaults.setup_config"] = {
       debug_mode = false,
@@ -24,13 +23,13 @@ describe("log_usecase", function()
   end)
 
   after_each(function()
-    vim.schedule_wrap = original_schedule_wrap
+    package.loaded["devdocs.infrastructure.adapters.notifier"] = nil
     package.loaded["devdocs.domain.defaults.setup_config"] = nil
     package.loaded["devdocs.application.usecases.log_usecase"] = nil
   end)
 
   describe("debug", function()
-    it("calls vim.notify with DEBUG level when debug_mode is true", function()
+    it("calls notify with DEBUG level when debug_mode is true", function()
       package.loaded["devdocs.domain.defaults.setup_config"] = { debug_mode = true }
       package.loaded["devdocs.application.usecases.log_usecase"] = nil
       usecase = require("devdocs.application.usecases.log_usecase")
@@ -42,7 +41,7 @@ describe("log_usecase", function()
       assert.equals(vim.log.levels.DEBUG, notify_calls[1].level)
     end)
 
-    it("does not call vim.notify when debug_mode is false", function()
+    it("does not call notify when debug_mode is false", function()
       usecase.debug("test message")
 
       assert.equals(0, #notify_calls)
@@ -50,7 +49,7 @@ describe("log_usecase", function()
   end)
 
   describe("info", function()
-    it("calls vim.notify with INFO level", function()
+    it("calls notify with INFO level", function()
       usecase.info("info message")
 
       assert.equals(1, #notify_calls)
@@ -60,7 +59,7 @@ describe("log_usecase", function()
   end)
 
   describe("warn", function()
-    it("calls vim.notify with WARN level", function()
+    it("calls notify with WARN level", function()
       usecase.warn("warn message")
 
       assert.equals(1, #notify_calls)
@@ -70,7 +69,7 @@ describe("log_usecase", function()
   end)
 
   describe("error", function()
-    it("calls vim.notify with ERROR level", function()
+    it("calls notify with ERROR level", function()
       usecase.error("error message")
 
       assert.equals(1, #notify_calls)

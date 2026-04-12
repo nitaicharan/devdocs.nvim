@@ -1,6 +1,6 @@
 ---@class IDocumentationsUseCase
 ---@field install fun(request: IDocumentationsRequest, repository: IDocumentationsRepository, registries_repository: IRegistriesRepository, entries_request: IEntriesRequest, entries_repository: IEntriesRepository, locks_repository:ILocksRepository, picker: IPicker, id?: string): table<string, string>[] | nil
----@field show fun(repository: IDocumentationsRepository, locks_repository:ILocksRepository, picker: IPicker, id?: string)
+---@field show fun(repository: IDocumentationsRepository, locks_repository:ILocksRepository, picker: IPicker, buffer: IBufferAdapter, id?: string)
 
 ---@type IDocumentationsUseCase
 return {
@@ -56,10 +56,11 @@ return {
     callback(id)
   end,
 
-  show = function(repository, locks_repository, picker, id)
+  show = function(repository, locks_repository, picker, buffer, id)
     id = id or ""
 
     assert(type(repository) ~= "nil", "repository param is required")
+    assert(type(buffer) ~= "nil", "buffer param is required")
 
     local log_usecase = require("devdocs.application.usecases.log_usecase")
     local entries_usecase = require("devdocs.application.usecases.entries_usecase")
@@ -85,11 +86,7 @@ return {
         local document = repository.find(lock.id, path)
         local lines = vim.split(document, "\n")
 
-        local buf = vim.api.nvim_create_buf(false, true)
-        vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-        vim.api.nvim_set_option_value('filetype', 'markdown', { buf = buf })
-        vim.api.nvim_set_option_value('modifiable', false, { buf = buf })
-        vim.api.nvim_set_current_buf(buf)
+        buffer.create_scratch_buffer(lines, 'markdown')
       end
 
       picker.entries(callback, lock.id, entries)
