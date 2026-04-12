@@ -67,6 +67,12 @@ All source code lives under `lua/devdocs/`:
 - **Async**: Background work uses `vim.schedule_wrap()` for Neovim event loop integration.
 - **Interface contracts**: Repository interfaces defined in `application/types/` using `---@class` with `---@field` function signatures.
 
+## Documentation
+
+- **Design specs** go in `docs/superpowers/specs/` with naming `YYYY-MM-DD-<topic>-design.md`
+- **Implementation plans** go in `docs/superpowers/plans/` with naming `YYYY-MM-DD-<topic>-plan.md`
+- After exiting plan mode, always copy the plan file to `docs/superpowers/plans/`
+
 ## External Dependencies
 
 - **plenary.nvim** — HTTP client (`plenary.curl`), path utilities, test framework
