@@ -2,10 +2,11 @@
 ---@field install fun(slug: string?)
 ---@field show fun(slug: string?)
 
+local make_logged = require("devdocs.application.helpers.make_logged")
+
 ---@type IDocumentatiosUi
-return {
+return make_logged("documentations_ui", {
   install = function(id)
-    local log_usecase = require("devdocs.application.usecases.log_usecase")
     local usecase = require("devdocs.application.usecases.documentations_usecase")
     local request = require("devdocs.infrastructure.requests.documentations_request")
     local repository = require("devdocs.infrastructure.repositories.documentations_repository")
@@ -14,8 +15,6 @@ return {
     local snacks_picker = require("devdocs.infrastructure.pickers.snacks_picker")
     local registeries_repository = require("devdocs.infrastructure.repositories.registeries_repository")
     local locks_repository = require("devdocs.infrastructure.repositories.locks_repository")
-
-    log_usecase.debug("[documentations_ui->install]:" .. vim.inspect({ id = id }))
 
     local documentation = usecase.install(
       request,
@@ -34,16 +33,12 @@ return {
   end,
 
   show = function(id)
-    local log_usecase = require("devdocs.application.usecases.log_usecase")
     local usecase = require("devdocs.application.usecases.documentations_usecase")
     local repository = require("devdocs.infrastructure.repositories.documentations_repository")
     local snacks_picker = require("devdocs.infrastructure.pickers.snacks_picker")
     local locks_repository = require("devdocs.infrastructure.repositories.locks_repository")
-
-    log_usecase.debug("[documentations_ui->show]:" .. vim.inspect({ id = id }))
-
     local buffer = require("devdocs.infrastructure.adapters.buffer")
 
     usecase.show(repository, locks_repository, snacks_picker, buffer, id)
   end
-}
+})

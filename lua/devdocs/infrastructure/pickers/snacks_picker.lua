@@ -1,12 +1,12 @@
 ---@class SnacksPicker: IPicker
 
+local make_logged = require("devdocs.application.helpers.make_logged")
+
 ---@type SnacksPicker
-return {
+return make_logged("snacks_picker", {
   entries = function(callback, id, entries)
     assert(type(callback) ~= "nil", "callback param is required")
     assert(type(entries) == "table", "entries must be a table")
-
-    local log_usecase = require("devdocs.application.usecases.log_usecase")
 
     local snacks = require("snacks")
 
@@ -24,9 +24,6 @@ return {
       actions = {
         confirm = function(picker, item)
           picker:close()
-
-          log_usecase.debug("[snacks_picker->entries]:" .. vim.inspect({ item = item }))
-
           callback(item)
         end,
       },
@@ -37,7 +34,6 @@ return {
     assert(type(callback) ~= "nil", "callback param is required")
     assert(type(registries) == "table", "registries must be a table")
 
-    local log_usecase = require("devdocs.application.usecases.log_usecase")
     local snacks = require("snacks")
 
     local items = {}
@@ -54,9 +50,6 @@ return {
       actions = {
         confirm = function(picker, item)
           picker:close()
-
-          log_usecase.debug("[snacks_picker->confirm]:" .. vim.inspect({ slug = item.slug }))
-
           callback(item)
         end,
       },
@@ -67,7 +60,6 @@ return {
     assert(type(callback) ~= "nil", "callback param is required")
     assert(type(models) == "table", "models must be a table")
 
-    local log_usecase = require("devdocs.application.usecases.log_usecase")
     local snacks = require("snacks")
 
     local items = {}
@@ -84,13 +76,10 @@ return {
       actions = {
         confirm = function(picker, item)
           picker:close()
-
-          log_usecase.debug("[snacks_picker->entries]:" .. vim.inspect({ item = item }))
-
           callback(item)
         end,
       },
       preview = "none",
     })
   end
-}
+})

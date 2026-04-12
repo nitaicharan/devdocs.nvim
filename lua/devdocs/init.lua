@@ -1,14 +1,3 @@
--- TODO: change dependency inject to constructor and make a statefull plugin
---
--- local request = require("devdocs.infrastructure.requests.registries_request")
--- local repository = require("devdocs.infrastructure.repositories.registeries_repository")
--- local usecase = require("devdocs.application.usecases.lifecycle_usecase")
--- local ui = require("devdocs.infrastructure.uis.documentations_ui")
---
--- -- usecase.on_plugin_init(request, repository)
--- ui.install()
--- -- ui.show("d")
-
 return {
   setup = function()
     local registries_request = require("devdocs.infrastructure.requests.registries_request")

@@ -4,13 +4,12 @@
 ---@field joinpath fun(...: string): string
 ---@field mkdir fun(path: string): string
 
----@type IFilesUtil
-return {
-  write = function(path, content)
-    local log_usecase = require("devdocs.application.usecases.log_usecase")
-    local plenary = require("plenary.path"):new(path)
+local make_logged = require("devdocs.application.helpers.make_logged")
 
-    log_usecase.debug("[files_util->write]:" .. vim.inspect({ path = path }))
+---@type IFilesUtil
+return make_logged("files_util", {
+  write = function(path, content)
+    local plenary = require("plenary.path"):new(path)
 
     local folder = plenary:parent()
     if not plenary:exists() then
@@ -21,10 +20,7 @@ return {
   end,
 
   read = function(path)
-    local log_usecase = require("devdocs.application.usecases.log_usecase")
     local plenary = require("plenary.path"):new(path)
-
-    log_usecase.debug("[files_util->read]:" .. vim.inspect({ path = path }))
 
     if not plenary:exists() then
       return nil
@@ -52,4 +48,4 @@ return {
 
     plenary:mkdir({ parents = true })
   end,
-}
+})

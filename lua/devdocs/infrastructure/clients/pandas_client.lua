@@ -1,8 +1,10 @@
 ---@class IPandasClient
 ---@field html_to_markdown fun(html: string): string
 
+local make_logged = require("devdocs.application.helpers.make_logged")
+
 ---@type IPandasClient
-return {
+return make_logged("pandas_client", {
   html_to_markdown = function(html)
     assert(type(html) == "string", "html must be a string")
 
@@ -15,4 +17,4 @@ return {
 
     return vim.fn.system(transpile_command, tostring(html))
   end,
-}
+})

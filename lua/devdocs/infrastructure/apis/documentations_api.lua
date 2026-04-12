@@ -2,8 +2,10 @@
 ---@field list fun(registery_name: string, callback?: fun(slug: string)): string[]
 ---@field install fun(registery_name: string, slug: string)
 
+local make_logged = require("devdocs.application.helpers.make_logged")
+
 ---@type IDocumentatiosApi
-local api = {
+local api = make_logged("documentations_api", {
   list = function(registery_name, callback)
     assert(type(callback) == "function", "callback must be a function")
     if callback then
@@ -31,6 +33,6 @@ local api = {
 
     usecase.install(request, repository, registries_repository, snack_picker, slug)
   end,
-}
+})
 
 return api

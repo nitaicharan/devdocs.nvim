@@ -25,6 +25,7 @@ describe("entries_usecase", function()
   end)
 
   after_each(function()
+    package.loaded["devdocs.application.helpers.make_logged"] = nil
     package.loaded["devdocs.application.usecases.log_usecase"] = nil
     package.loaded["devdocs.infrastructure.repositories.entries_repository"] = nil
     package.loaded["devdocs.application.usecases.entries_usecase"] = nil

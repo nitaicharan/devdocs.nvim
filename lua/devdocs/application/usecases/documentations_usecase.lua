@@ -2,8 +2,10 @@
 ---@field install fun(request: IDocumentationsRequest, repository: IDocumentationsRepository, registries_repository: IRegistriesRepository, entries_request: IEntriesRequest, entries_repository: IEntriesRepository, locks_repository:ILocksRepository, picker: IPicker, id?: string): table<string, string>[] | nil
 ---@field show fun(repository: IDocumentationsRepository, locks_repository:ILocksRepository, picker: IPicker, buffer: IBufferAdapter, id?: string)
 
+local make_logged = require("devdocs.application.helpers.make_logged")
+
 ---@type IDocumentationsUseCase
-return {
+return make_logged("documentations_usecase", {
   install = function(request, repository, registries_repository, entries_request, entries_repository, locks_repository,
                      picker, id)
     id = id or ""
@@ -17,8 +19,6 @@ return {
     local log_usecase = require("devdocs.application.usecases.log_usecase")
     local registeries_usecase = require("devdocs.application.usecases.registries_usecase")
     local entries_usecase = require("devdocs.application.usecases.entries_usecase")
-    log_usecase.debug("[documentations_usecase->install]:" .. vim.inspect({ id = id }))
-
 
     local callback = function(registry)
       assert(type(registry) ~= "nil", "registry param is required")
@@ -26,8 +26,6 @@ return {
       if registry == nil then
         return;
       end
-
-      log_usecase.debug("[documentations_usecase->callback]:" .. vim.inspect({ registry = registry }))
 
       -- TODO check if it already installed before feching it
       -- TODO make documentation installation in parallel
@@ -65,21 +63,14 @@ return {
     local log_usecase = require("devdocs.application.usecases.log_usecase")
     local entries_usecase = require("devdocs.application.usecases.entries_usecase")
 
-    log_usecase.debug("[documentations_usecase->show]:" .. vim.inspect({ id = id }))
-
     local locks_callback = function(lock)
-      log_usecase.debug("[documentations_usecase->locks_callback]:" .. vim.inspect({ lock = lock }))
-
       local entries = entries_usecase.find(lock.id)
       if entries == nil then
         return log_usecase.error(string.format("Entry  %s not found", lock.name))
       end
 
-
       -- TODO: remove nested callbacks
       local callback = function(entry)
-        log_usecase.debug("[documentations_usecase->callback]:" .. vim.inspect({ entry = entry }))
-
         local document_path = vim.split(entry.path, "#")
         local path = document_path[1]
 
@@ -97,4 +88,4 @@ return {
       return picker.locks(locks_callback, vim.tbl_values(result))
     end
   end
-}
+})
