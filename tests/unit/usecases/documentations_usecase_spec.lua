@@ -72,8 +72,9 @@ describe("documentations_usecase", function()
       local mock_doc = { html = "<h1>Lua</h1>" }
       local mock_request = { find_async = function(slug, on_success) on_success(mock_doc) end }
       local mock_repository = {
-        save = function(doc, slug)
+        save_async = function(doc, slug, on_done)
           saved_doc_args = { doc = doc, slug = slug }
+          on_done()
         end,
       }
       local mock_registries_repository = { list = function() end }
@@ -107,7 +108,7 @@ describe("documentations_usecase", function()
     it("returns early when request.find_async returns nil", function()
       local mock_request = { find_async = function(slug, on_success) on_success(nil) end }
       local mock_repository = {
-        save = function() error("should not be called") end,
+        save_async = function() error("should not be called") end,
       }
       local mock_registries_repository = { list = function() end }
       local mock_locks_repository = {
@@ -128,7 +129,7 @@ describe("documentations_usecase", function()
 
     it("delegates to picker when no id given", function()
       local mock_request = { find_async = function() end }
-      local mock_repository = { save = function() end }
+      local mock_repository = { save_async = function() end }
       local mock_registries_repository = { list = function() end }
       local mock_locks_repository = { save = function() end }
       local mock_picker = {
@@ -156,7 +157,7 @@ describe("documentations_usecase", function()
       usecase = require("devdocs.application.usecases.documentations_usecase")
 
       local mock_request = { find_async = function() end }
-      local mock_repository = { save = function() end }
+      local mock_repository = { save_async = function() end }
       local mock_registries_repository = { list = function() end }
       local mock_locks_repository = { save = function() end }
       local mock_picker = { registries = function() error("should not be called") end }
@@ -179,7 +180,7 @@ describe("documentations_usecase", function()
       usecase = require("devdocs.application.usecases.documentations_usecase")
 
       local mock_request = { find_async = function() end }
-      local mock_repository = { save = function() end }
+      local mock_repository = { save_async = function() end }
       local mock_registries_repository = { list = function() end }
       local mock_locks_repository = { save = function() end }
       local mock_picker = {

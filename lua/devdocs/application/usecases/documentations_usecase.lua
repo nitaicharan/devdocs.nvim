@@ -35,11 +35,11 @@ return make_logged("documentations_usecase", {
           return
         end
 
-        repository.save(documentation, registry.slug)
-
-        entries_usecase.install_async(entries_request, entries_repository, registry.slug, function()
-          locks_repository.save({ id = registry.slug, name = registry.name })
-          log_usecase.info(string.format("%s documentation installed successfully", registry.name))
+        repository.save_async(documentation, registry.slug, function()
+          entries_usecase.install_async(entries_request, entries_repository, registry.slug, function()
+            locks_repository.save({ id = registry.slug, name = registry.name })
+            log_usecase.info(string.format("%s documentation installed successfully", registry.name))
+          end)
         end)
       end)
     end
