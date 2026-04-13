@@ -2,7 +2,8 @@
 ---@field get fun(url: string, options?: table): any
 ---@field get_async fun(url: string, callback: fun(response: any), options?: table)
 
-local make_logged = require("devdocs.application.helpers.make_logged")
+local make_logged_helper = require("devdocs.application.helpers.make_logged")
+local make_logged = make_logged_helper.make_logged
 
 ---@type IHttpClient
 return make_logged("http_client", {

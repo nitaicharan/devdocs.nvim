@@ -1,7 +1,8 @@
 ---@class IBufferAdapter
 ---@field create_scratch_buffer fun(lines: string[], filetype: string): number
 
-local make_logged = require("devdocs.application.helpers.make_logged")
+local make_logged_helper = require("devdocs.application.helpers.make_logged")
+local make_logged = make_logged_helper.make_logged
 
 ---@type IBufferAdapter
 return make_logged("buffer", {

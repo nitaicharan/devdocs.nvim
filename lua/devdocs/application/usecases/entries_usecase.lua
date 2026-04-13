@@ -3,7 +3,8 @@
 ---@field install_async fun(request: IEntriesRequest, repository: IEntriesRepository, slug: string, on_done?: fun())
 ---@field find fun(slug: string): EntryModel[] | nil
 
-local make_logged = require("devdocs.application.helpers.make_logged")
+local make_logged_helper = require("devdocs.application.helpers.make_logged")
+local make_logged = make_logged_helper.make_logged
 
 ---@type IEntriesUseCase
 return make_logged("entries_usecase", {

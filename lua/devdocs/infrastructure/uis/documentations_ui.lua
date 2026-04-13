@@ -2,7 +2,8 @@
 ---@field install fun(slug: string?)
 ---@field show fun(slug: string?)
 
-local make_logged = require("devdocs.application.helpers.make_logged")
+local make_logged_helper = require("devdocs.application.helpers.make_logged")
+local make_logged = make_logged_helper.make_logged
 
 ---@type IDocumentatiosUi
 return make_logged("documentations_ui", {

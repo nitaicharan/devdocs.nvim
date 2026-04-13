@@ -2,7 +2,8 @@
 ---@field html_to_markdown fun(html: string): string
 ---@field html_to_markdown_async fun(html: string, on_success: fun(markdown: string))
 
-local make_logged = require("devdocs.application.helpers.make_logged")
+local make_logged_helper = require("devdocs.application.helpers.make_logged")
+local make_logged = make_logged_helper.make_logged
 
 ---@type IPandasClient
 return make_logged("pandas_client", {

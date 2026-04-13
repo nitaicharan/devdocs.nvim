@@ -2,7 +2,8 @@
 ---@field find fun(slug: string): table<string,string>[] | nil
 ---@field find_async fun(slug: string, on_success: fun(result: table<string,string>[] | nil))
 
-local make_logged = require("devdocs.application.helpers.make_logged")
+local make_logged_helper = require("devdocs.application.helpers.make_logged")
+local make_logged = make_logged_helper.make_logged
 
 ---@type IDocumentationsRequest
 return make_logged("documentations_request", {

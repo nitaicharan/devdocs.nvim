@@ -2,7 +2,8 @@
 ---@field list fun(slug: string): EntryModel[] | nil
 ---@field list_async fun(slug: string, on_success: fun(result: EntryModel[] | nil))
 
-local make_logged = require("devdocs.application.helpers.make_logged")
+local make_logged_helper = require("devdocs.application.helpers.make_logged")
+local make_logged = make_logged_helper.make_logged
 
 ---@type IEntriesRequest
 return make_logged("entries_request", {

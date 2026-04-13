@@ -1,6 +1,6 @@
 local log_usecase = require("devdocs.application.usecases.log_usecase")
 
-return function(module_name, module)
+local function create_logged_proxy(module_name, module)
   return setmetatable({}, {
     __index = function(_, func_name)
       local original = module[func_name]
@@ -18,3 +18,11 @@ return function(module_name, module)
     end,
   })
 end
+
+local function make_logged(module_name, module)
+  return create_logged_proxy(module_name, module)
+end
+
+return {
+  make_logged = make_logged,
+}

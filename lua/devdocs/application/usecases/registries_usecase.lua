@@ -2,7 +2,8 @@
 ---@field install fun(request: IRegistriesRequest, repository: IRegistriesRepository)
 ---@field list fun(repository: IRegistriesRepository): RegistryModel[] | nil
 
-local make_logged = require("devdocs.application.helpers.make_logged")
+local make_logged_helper = require("devdocs.application.helpers.make_logged")
+local make_logged = make_logged_helper.make_logged
 
 ---@type IRegistriesUseCase
 return make_logged("registries_usecase", {

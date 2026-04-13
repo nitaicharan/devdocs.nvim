@@ -15,7 +15,8 @@ describe("make_logged", function()
     }
 
     package.loaded["devdocs.application.helpers.make_logged"] = nil
-    make_logged = require("devdocs.application.helpers.make_logged")
+    local make_logged_helper = require("devdocs.application.helpers.make_logged")
+    make_logged = make_logged_helper.make_logged
   end)
 
   after_each(function()

@@ -2,7 +2,8 @@
 ---@field save fun(registry: RegistryModel[])
 ---@field list fun(): RegistryModel | nil
 
-local make_logged = require("devdocs.application.helpers.make_logged")
+local make_logged_helper = require("devdocs.application.helpers.make_logged")
+local make_logged = make_logged_helper.make_logged
 
 ---@type IRegistriesRepository
 return make_logged("registeries_repository", {

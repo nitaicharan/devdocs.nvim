@@ -1,7 +1,8 @@
 ---@class IDocumentsRepository
 ---@field save fun(documentation_slug: string, slug: string, content: string)
 
-local make_logged = require("devdocs.application.helpers.make_logged")
+local make_logged_helper = require("devdocs.application.helpers.make_logged")
+local make_logged = make_logged_helper.make_logged
 
 ---@type IDocumentsRepository
 return make_logged("documents_repository", {

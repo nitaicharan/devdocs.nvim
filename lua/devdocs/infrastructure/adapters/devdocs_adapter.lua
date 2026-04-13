@@ -2,7 +2,8 @@
 ---@field transform_entries fun(content: any, slug: string): EntryModel[] | nil
 ---@field transform_documentations fun(content: any): EntryModel[] | nil
 
-local make_logged = require("devdocs.application.helpers.make_logged")
+local make_logged_helper = require("devdocs.application.helpers.make_logged")
+local make_logged = make_logged_helper.make_logged
 
 ---@type IDevdocsAdapter
 return make_logged("devdocs_adapter", {

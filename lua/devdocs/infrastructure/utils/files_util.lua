@@ -4,7 +4,8 @@
 ---@field joinpath fun(...: string): string
 ---@field mkdir fun(path: string): string
 
-local make_logged = require("devdocs.application.helpers.make_logged")
+local make_logged_helper = require("devdocs.application.helpers.make_logged")
+local make_logged = make_logged_helper.make_logged
 
 ---@type IFilesUtil
 return make_logged("files_util", {

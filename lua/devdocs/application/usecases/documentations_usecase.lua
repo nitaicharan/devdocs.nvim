@@ -2,7 +2,8 @@
 ---@field install fun(request: IDocumentationsRequest, repository: IDocumentationsRepository, registries_repository: IRegistriesRepository, entries_request: IEntriesRequest, entries_repository: IEntriesRepository, locks_repository:ILocksRepository, picker: IPicker, id?: string): table<string, string>[] | nil
 ---@field show fun(repository: IDocumentationsRepository, locks_repository:ILocksRepository, picker: IPicker, buffer: IBufferAdapter, id?: string)
 
-local make_logged = require("devdocs.application.helpers.make_logged")
+local make_logged_helper = require("devdocs.application.helpers.make_logged")
+local make_logged = make_logged_helper.make_logged
 
 ---@type IDocumentationsUseCase
 return make_logged("documentations_usecase", {
