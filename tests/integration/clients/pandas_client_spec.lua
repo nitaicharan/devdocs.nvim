@@ -77,4 +77,46 @@ describe("pandas_client", function()
       end)
     end)
   end)
+
+  describe("html_to_markdown_async", function()
+    it("converts HTML to markdown asynchronously", function()
+      local result
+      local done = false
+
+      client.html_to_markdown_async("<h1>Hello</h1>", function(markdown)
+        result = markdown
+        done = true
+      end)
+
+      -- vim.system is async; in test env we need to wait for completion
+      vim.wait(5000, function() return done end)
+
+      assert.is_true(done)
+      assert.is_not_nil(result)
+      assert.is_not_nil(string.find(result, "Hello"))
+    end)
+
+    it("handles empty HTML input", function()
+      local result
+      local done = false
+
+      client.html_to_markdown_async("", function(markdown)
+        result = markdown
+        done = true
+      end)
+
+      vim.wait(5000, function() return done end)
+
+      assert.is_true(done)
+      assert.is_not_nil(result)
+    end)
+
+    it("asserts on non-string html", function()
+      assert.has_error(function() client.html_to_markdown_async(123, function() end) end)
+    end)
+
+    it("asserts on non-function callback", function()
+      assert.has_error(function() client.html_to_markdown_async("<h1>X</h1>", "not a fn") end)
+    end)
+  end)
 end)

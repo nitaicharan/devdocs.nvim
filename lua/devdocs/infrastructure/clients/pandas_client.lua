@@ -1,5 +1,6 @@
 ---@class IPandasClient
 ---@field html_to_markdown fun(html: string): string
+---@field html_to_markdown_async fun(html: string, on_success: fun(markdown: string))
 
 local make_logged = require("devdocs.application.helpers.make_logged")
 
@@ -16,5 +17,21 @@ return make_logged("pandas_client", {
     }
 
     return vim.fn.system(transpile_command, tostring(html))
+  end,
+
+  html_to_markdown_async = function(html, on_success)
+    assert(type(html) == "string", "html must be a string")
+    assert(type(on_success) == "function", "on_success must be a function")
+
+    local transpile_command = {
+      "pandoc",
+      "--from", "html",
+      "--to", "gfm-raw_html",
+      "--wrap", "none",
+    }
+
+    vim.system(transpile_command, { stdin = html }, function(result)
+      on_success(result.stdout)
+    end)
   end,
 })
