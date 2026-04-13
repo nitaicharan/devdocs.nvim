@@ -30,8 +30,8 @@ return make_logged("pandas_client", {
       "--wrap", "none",
     }
 
-    vim.system(transpile_command, { stdin = html }, function(result)
+    vim.system(transpile_command, { stdin = html }, vim.schedule_wrap(function(result)
       on_success(result.stdout)
-    end)
+    end))
   end,
 })
