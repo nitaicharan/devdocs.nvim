@@ -1,0 +1,5 @@
+---@meta
+--- Output port for persisting and reading entry indices. Implemented by infrastructure/repositories/entries_repository.lua.
+---@class EntriesRepositoryPort
+---@field save fun(entries: EntryModel[], name: string)
+---@field find fun(name: string): EntryModel[] | nil

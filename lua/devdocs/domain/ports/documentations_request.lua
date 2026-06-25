@@ -1,0 +1,5 @@
+---@meta
+--- Output port for fetching documentation content. Implemented by infrastructure/requests/documentations_request.lua.
+---@class DocumentationsRequestPort
+---@field find fun(slug: string): table<string,string>[] | nil
+---@field find_async fun(slug: string, on_success: fun(result: table<string,string>[] | nil))

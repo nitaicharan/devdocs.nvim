@@ -1,0 +1,6 @@
+---@meta
+--- Output port for selection UI. Implemented by infrastructure/pickers/snacks_picker.lua.
+---@class PickerPort
+---@field entries fun(callback: fun(entry: EntryModel), id: string, models: EntryModel[])
+---@field registries fun(callback: fun(registry: RegistryModel), models: RegistryModel[])
+---@field locks fun(callback: fun(lock: LockModel), models: LockModel[])

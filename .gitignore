@@ -1,0 +1,16 @@
+*.log
+/.repro
+/.tests
+tests/.testscache
+tests/.testsconfig
+tests/.testsdata
+/build
+/debug
+/doc/tags
+foo.*
+foo*.*
+node_modules
+tt.*
+/tmp
+repomix*
+.aider*

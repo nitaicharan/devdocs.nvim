@@ -1,0 +1,4 @@
+---@meta
+--- Output port for fetching individual document pages. Implemented by infrastructure/requests/documents_request.lua.
+---@class DocumentsRequestPort
+---@field get fun(slug: string, document_path: string): string

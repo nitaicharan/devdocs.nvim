@@ -1,0 +1,6 @@
+---@class EntryModel
+---@field name string
+---@field path string
+---@field type string
+---@field slug string
+---@field content string

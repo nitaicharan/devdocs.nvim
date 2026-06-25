@@ -1,0 +1,5 @@
+---@meta
+--- Output port for persisting installed documentation locks. Implemented by infrastructure/repositories/locks_repository.lua.
+---@class LocksRepositoryPort
+---@field save fun(data: {id: string, name: string})
+---@field list fun(): table<string, LockModel>

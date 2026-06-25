@@ -1,0 +1,3 @@
+---@class DocumentModel
+---@field slug string
+---@field files FileModel[]
