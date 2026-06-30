@@ -12,7 +12,7 @@ local M = {
     local registeries_usecase = require("devdocs.application.usecases.registries_usecase")
     local entries_usecase = require("devdocs.application.usecases.entries_usecase")
 
-    local request = container.documentations_request()
+    local provider = container.documentations_provider()
     local repository = container.documentations_repository()
     local locks_repository = container.locks_repository()
     local picker = container.picker()
@@ -26,7 +26,7 @@ local M = {
 
       log_usecase.info(string.format("Installing %s documentation...", registry.name))
 
-      request.find_async(registry.slug, function(documentation)
+      provider.find_async(registry.slug, function(documentation)
         if documentation == nil then
           log_usecase.error(string.format("Failed to fetch %s documentation", registry.name))
           return

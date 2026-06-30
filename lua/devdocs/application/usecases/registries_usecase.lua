@@ -4,7 +4,7 @@ local container = require("devdocs.application.ports.dependency_registry")
 ---@class RegistriesUsecase
 local M = {
   install = function()
-    local request = container.registries_request()
+    local provider = container.registries_provider()
     local repository = container.registries_repository()
 
     local registery = repository.list()
@@ -12,7 +12,7 @@ local M = {
       return
     end
 
-    local data = request.list()
+    local data = provider.list()
     repository.save(data)
   end,
 

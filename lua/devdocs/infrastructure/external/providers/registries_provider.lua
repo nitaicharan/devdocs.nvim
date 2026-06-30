@@ -17,4 +17,4 @@ local M = {
   end
 }
 
-return make_logged("external/requests/registries", M)
+return make_logged("external/providers/registries", M)

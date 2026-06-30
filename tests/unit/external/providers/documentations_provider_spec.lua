@@ -1,19 +1,19 @@
 local assert = require("luassert")
 
-describe("documentations_request", function()
-  local request
+describe("documentations_provider", function()
+  local provider
 
   before_each(function()
     package.loaded["devdocs.application.usecases.log_usecase"] = {
       debug = function() end,
     }
-    package.loaded["devdocs.infrastructure.external.requests.documentations_request"] = nil
+    package.loaded["devdocs.infrastructure.external.providers.documentations_provider"] = nil
   end)
 
   after_each(function()
     package.loaded["devdocs.application.usecases.log_usecase"] = nil
     package.loaded["devdocs.infrastructure.external.clients.http_client"] = nil
-    package.loaded["devdocs.infrastructure.external.requests.documentations_request"] = nil
+    package.loaded["devdocs.infrastructure.external.providers.documentations_provider"] = nil
   end)
 
   describe("find_async", function()
@@ -24,9 +24,9 @@ describe("documentations_request", function()
         end,
       }
 
-      request = require("devdocs.infrastructure.external.requests.documentations_request")
+      provider = require("devdocs.infrastructure.external.providers.documentations_provider")
       local result
-      request.find_async("lua~5.4", function(r) result = r end)
+      provider.find_async("lua~5.4", function(r) result = r end)
 
       assert.same({ array = "<h1>Array</h1>" }, result)
     end)
@@ -38,21 +38,21 @@ describe("documentations_request", function()
         end,
       }
 
-      request = require("devdocs.infrastructure.external.requests.documentations_request")
+      provider = require("devdocs.infrastructure.external.providers.documentations_provider")
       local result = "not_called"
-      request.find_async("lua~5.4", function(r) result = r end)
+      provider.find_async("lua~5.4", function(r) result = r end)
 
       assert.is_nil(result)
     end)
 
     it("asserts on non-string slug", function()
-      request = require("devdocs.infrastructure.external.requests.documentations_request")
-      assert.has_error(function() request.find_async(123, function() end) end)
+      provider = require("devdocs.infrastructure.external.providers.documentations_provider")
+      assert.has_error(function() provider.find_async(123, function() end) end)
     end)
 
     it("asserts on non-function callback", function()
-      request = require("devdocs.infrastructure.external.requests.documentations_request")
-      assert.has_error(function() request.find_async("lua~5.4", "not a function") end)
+      provider = require("devdocs.infrastructure.external.providers.documentations_provider")
+      assert.has_error(function() provider.find_async("lua~5.4", "not a function") end)
     end)
   end)
 end)

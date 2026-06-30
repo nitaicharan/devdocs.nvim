@@ -1,19 +1,19 @@
 local assert = require("luassert")
 
-describe("entries_request", function()
-  local request
+describe("entries_provider", function()
+  local provider
 
   before_each(function()
     package.loaded["devdocs.application.usecases.log_usecase"] = {
       debug = function() end,
     }
-    package.loaded["devdocs.infrastructure.external.requests.entries_request"] = nil
+    package.loaded["devdocs.infrastructure.external.providers.entries_provider"] = nil
   end)
 
   after_each(function()
     package.loaded["devdocs.application.usecases.log_usecase"] = nil
     package.loaded["devdocs.infrastructure.external.clients.http_client"] = nil
-    package.loaded["devdocs.infrastructure.external.requests.entries_request"] = nil
+    package.loaded["devdocs.infrastructure.external.providers.entries_provider"] = nil
   end)
 
   describe("list_async", function()
@@ -28,9 +28,9 @@ describe("entries_request", function()
         end,
       }
 
-      request = require("devdocs.infrastructure.external.requests.entries_request")
+      provider = require("devdocs.infrastructure.external.providers.entries_provider")
       local result
-      request.list_async("lua~5.4", function(r) result = r end)
+      provider.list_async("lua~5.4", function(r) result = r end)
 
       assert.same(transformed, result)
     end)
@@ -42,16 +42,16 @@ describe("entries_request", function()
         end,
       }
 
-      request = require("devdocs.infrastructure.external.requests.entries_request")
+      provider = require("devdocs.infrastructure.external.providers.entries_provider")
       local result = "not_called"
-      request.list_async("lua~5.4", function(r) result = r end)
+      provider.list_async("lua~5.4", function(r) result = r end)
 
       assert.is_nil(result)
     end)
 
     it("asserts on non-string slug", function()
-      request = require("devdocs.infrastructure.external.requests.entries_request")
-      assert.has_error(function() request.list_async(123, function() end) end)
+      provider = require("devdocs.infrastructure.external.providers.entries_provider")
+      assert.has_error(function() provider.list_async(123, function() end) end)
     end)
   end)
 end)

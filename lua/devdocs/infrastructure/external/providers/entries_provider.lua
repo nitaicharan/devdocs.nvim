@@ -52,4 +52,4 @@ local M = {
   end
 }
 
-return make_logged("external/requests/entries", M)
+return make_logged("external/providers/entries", M)

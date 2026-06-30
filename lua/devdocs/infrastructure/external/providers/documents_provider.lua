@@ -16,4 +16,4 @@ local M = {
   end
 }
 
-return make_logged("external/requests/documents", M)
+return make_logged("external/providers/documents", M)

@@ -37,4 +37,4 @@ local M = {
   end
 }
 
-return make_logged("external/requests/documentations", M)
+return make_logged("external/providers/documentations", M)

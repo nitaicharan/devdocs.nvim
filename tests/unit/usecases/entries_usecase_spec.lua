@@ -4,13 +4,13 @@ describe("entries_usecase", function()
   local usecase
   local saved_entries
   local saved_id
-  local mock_request
+  local mock_provider
   local mock_repository
 
   before_each(function()
     saved_entries = nil
     saved_id = nil
-    mock_request = {}
+    mock_provider = {}
     mock_repository = { save = function() end }
 
     package.loaded["devdocs.application.usecases.log_usecase"] = {
@@ -21,7 +21,7 @@ describe("entries_usecase", function()
     }
 
     package.loaded["devdocs.application.ports.dependency_registry"] = {
-      entries_request = function() return mock_request end,
+      entries_provider = function() return mock_provider end,
       entries_repository = function() return mock_repository end,
     }
 
@@ -39,7 +39,7 @@ describe("entries_usecase", function()
   describe("install", function()
     it("fetches and saves entries", function()
       local mock_entries = { { name = "Array", path = "array" } }
-      mock_request = { list = function() return mock_entries end }
+      mock_provider = { list = function() return mock_entries end }
       mock_repository = {
         save = function(entries, id)
           saved_entries = entries
@@ -53,8 +53,8 @@ describe("entries_usecase", function()
       assert.equals("lua~5.4", saved_id)
     end)
 
-    it("returns early when request returns nil", function()
-      mock_request = { list = function() return nil end }
+    it("returns early when provider returns nil", function()
+      mock_provider = { list = function() return nil end }
       mock_repository = {
         save = function() error("should not be called") end,
       }
@@ -72,7 +72,7 @@ describe("entries_usecase", function()
   describe("install_async", function()
     it("fetches and saves entries asynchronously", function()
       local mock_entries = { { name = "Array", path = "array" } }
-      mock_request = {
+      mock_provider = {
         list_async = function(slug, on_success) on_success(mock_entries) end,
       }
       mock_repository = {
@@ -92,8 +92,8 @@ describe("entries_usecase", function()
       assert.is_true(done_called)
     end)
 
-    it("calls on_done even when request returns nil", function()
-      mock_request = { list_async = function(_, on_success) on_success(nil) end }
+    it("calls on_done even when provider returns nil", function()
+      mock_provider = { list_async = function(_, on_success) on_success(nil) end }
       mock_repository = { save = function() error("should not be called") end }
       local done_called = false
 
@@ -105,7 +105,7 @@ describe("entries_usecase", function()
     end)
 
     it("works without on_done callback", function()
-      mock_request = { list_async = function(_, on_success) on_success(nil) end }
+      mock_provider = { list_async = function(_, on_success) on_success(nil) end }
       mock_repository = { save = function() end }
 
       assert.has_no.errors(function()

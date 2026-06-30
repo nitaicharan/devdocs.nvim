@@ -3,12 +3,12 @@ local assert = require("luassert")
 describe("registries_usecase", function()
   local usecase
   local saved_data
-  local mock_request
+  local mock_provider
   local mock_repository
 
   before_each(function()
     saved_data = nil
-    mock_request = { list = function() end }
+    mock_provider = { list = function() end }
     mock_repository = { list = function() return nil end, save = function() end }
 
     package.loaded["devdocs.application.usecases.log_usecase"] = {
@@ -19,7 +19,7 @@ describe("registries_usecase", function()
     }
 
     package.loaded["devdocs.application.ports.dependency_registry"] = {
-      registries_request = function() return mock_request end,
+      registries_provider = function() return mock_provider end,
       registries_repository = function() return mock_repository end,
     }
 
@@ -37,7 +37,7 @@ describe("registries_usecase", function()
   describe("install", function()
     it("fetches and saves registry when not installed", function()
       local mock_data = { { slug = "lua", name = "Lua" } }
-      mock_request = { list = function() return mock_data end }
+      mock_provider = { list = function() return mock_data end }
       mock_repository = {
         list = function() return nil end,
         save = function(data) saved_data = data end,
@@ -49,7 +49,7 @@ describe("registries_usecase", function()
     end)
 
     it("skips fetch when registry already exists", function()
-      mock_request = { list = function() error("should not be called") end }
+      mock_provider = { list = function() error("should not be called") end }
       mock_repository = {
         list = function() return { { slug = "lua" } } end,
         save = function() error("should not be called") end,

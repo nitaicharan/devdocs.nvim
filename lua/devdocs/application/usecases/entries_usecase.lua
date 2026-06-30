@@ -7,10 +7,10 @@ local M = {
     assert(type(id) == "string", "id must be a string")
 
     local container = require("devdocs.application.ports.dependency_registry")
-    local request = container.entries_request()
+    local provider = container.entries_provider()
     local repository = container.entries_repository()
 
-    local entries = request.list(id)
+    local entries = provider.list(id)
     if entries == nil then
       return
     end
@@ -24,10 +24,10 @@ local M = {
     assert(type(id) == "string", "id must be a string")
 
     local container = require("devdocs.application.ports.dependency_registry")
-    local request = container.entries_request()
+    local provider = container.entries_provider()
     local repository = container.entries_repository()
 
-    request.list_async(id, function(entries)
+    provider.list_async(id, function(entries)
       if entries == nil then
         if on_done then on_done() end
         return

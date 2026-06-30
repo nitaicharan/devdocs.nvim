@@ -1,4 +1,4 @@
 ---@meta
---- Output port for fetching the devdocs registry list. Implemented by infrastructure/external/requests/registries_request.lua.
+--- Output port for fetching the devdocs registry list. Implemented by infrastructure/external/providers/registries_provider.lua.
 ---@class RegistriesProviderPort
 ---@field list fun(): RegistryModel[]
