@@ -1,5 +1,6 @@
 local make_logged = require("devdocs.application.helpers.make_logged")
 
+---@class DocumentationsUsecase
 local M = {}
 
 ---@param id? string
@@ -7,15 +8,15 @@ M.install = function(id)
   id = id or ""
   assert(type(id) == "string", "id must be a string")
 
-  local ports = require("devdocs.application.ports.adapter_registry")
+  local container = require("devdocs.application.ports.adapter_registry")
   local log_usecase = require("devdocs.application.usecases.log_usecase")
   local registeries_usecase = require("devdocs.application.usecases.registries_usecase")
   local entries_usecase = require("devdocs.application.usecases.entries_usecase")
 
-  local request = ports.documentations_request()
-  local repository = ports.documentations_repository()
-  local locks_repository = ports.locks_repository()
-  local picker = ports.picker()
+  local request = container.documentations_request()
+  local repository = container.documentations_repository()
+  local locks_repository = container.locks_repository()
+  local picker = container.picker()
 
   local callback = function(registry)
     assert(type(registry) ~= "nil", "registry param is required")
@@ -57,14 +58,14 @@ end
 M.show = function(id)
   id = id or ""
 
-  local ports = require("devdocs.application.ports.adapter_registry")
+  local container = require("devdocs.application.ports.adapter_registry")
   local log_usecase = require("devdocs.application.usecases.log_usecase")
   local entries_usecase = require("devdocs.application.usecases.entries_usecase")
 
-  local repository = ports.documentations_repository()
-  local locks_repository = ports.locks_repository()
-  local picker = ports.picker()
-  local buffer = ports.buffer()
+  local repository = container.documentations_repository()
+  local locks_repository = container.locks_repository()
+  local picker = container.picker()
+  local buffer = container.buffer()
 
   local locks_callback = function(lock)
     local entries = entries_usecase.find(lock.id)

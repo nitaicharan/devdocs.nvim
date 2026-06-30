@@ -1,11 +1,12 @@
 local make_logged = require("devdocs.application.helpers.make_logged")
+local container = require("devdocs.application.ports.adapter_registry")
 
+---@class RegistriesUsecase
 local M = {}
 
 M.install = function()
-  local ports = require("devdocs.application.ports.adapter_registry")
-  local request = ports.registries_request()
-  local repository = ports.registries_repository()
+  local request = container.registries_request()
+  local repository = container.registries_repository()
 
   local registery = repository.list()
   if registery ~= nil then
@@ -18,8 +19,7 @@ end
 
 ---@return RegistryModel[] | nil
 M.list = function()
-  local ports = require("devdocs.application.ports.adapter_registry")
-  local repository = ports.registries_repository()
+  local repository = container.registries_repository()
 
   return repository.list()
 end

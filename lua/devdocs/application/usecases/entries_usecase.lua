@@ -1,14 +1,15 @@
 local make_logged = require("devdocs.application.helpers.make_logged")
 
+---@class EntriesUsecase
 local M = {}
 
 ---@param id string
 M.install = function(id)
   assert(type(id) == "string", "id must be a string")
 
-  local ports = require("devdocs.application.ports.adapter_registry")
-  local request = ports.entries_request()
-  local repository = ports.entries_repository()
+  local container = require("devdocs.application.ports.adapter_registry")
+  local request = container.entries_request()
+  local repository = container.entries_repository()
 
   local entries = request.list(id)
   if entries == nil then
@@ -23,9 +24,9 @@ end
 M.install_async = function(id, on_done)
   assert(type(id) == "string", "id must be a string")
 
-  local ports = require("devdocs.application.ports.adapter_registry")
-  local request = ports.entries_request()
-  local repository = ports.entries_repository()
+  local container = require("devdocs.application.ports.adapter_registry")
+  local request = container.entries_request()
+  local repository = container.entries_repository()
 
   request.list_async(id, function(entries)
     if entries == nil then
@@ -42,8 +43,8 @@ end
 M.find = function(id)
   assert(type(id) == "string", "id must be a string")
 
-  local ports = require("devdocs.application.ports.adapter_registry")
-  local repository = ports.entries_repository()
+  local container = require("devdocs.application.ports.adapter_registry")
+  local repository = container.entries_repository()
 
   return repository.find(id)
 end
