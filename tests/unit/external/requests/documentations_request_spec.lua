@@ -13,28 +13,22 @@ describe("documentations_request", function()
   after_each(function()
     package.loaded["devdocs.application.usecases.log_usecase"] = nil
     package.loaded["devdocs.infrastructure.external.clients.http_client"] = nil
-    package.loaded["devdocs.infrastructure.mappers.devdocs_mapper"] = nil
     package.loaded["devdocs.infrastructure.external.requests.documentations_request"] = nil
   end)
 
   describe("find_async", function()
-    it("calls http_client.get_async and passes transformed result to on_success", function()
-      local transformed = { { path = "array", html = "<h1>Array</h1>" } }
-
+    it("calls http_client.get_async and passes the decoded body to on_success", function()
       package.loaded["devdocs.infrastructure.external.clients.http_client"] = {
         get_async = function(url, callback)
           callback({ body = '{"array": "<h1>Array</h1>"}' })
         end,
-      }
-      package.loaded["devdocs.infrastructure.mappers.devdocs_mapper"] = {
-        transform_documentations = function() return transformed end,
       }
 
       request = require("devdocs.infrastructure.external.requests.documentations_request")
       local result
       request.find_async("lua~5.4", function(r) result = r end)
 
-      assert.same(transformed, result)
+      assert.same({ array = "<h1>Array</h1>" }, result)
     end)
 
     it("passes nil to on_success when body decodes to nil", function()
@@ -42,9 +36,6 @@ describe("documentations_request", function()
         get_async = function(_, callback)
           callback({ body = "null" })
         end,
-      }
-      package.loaded["devdocs.infrastructure.mappers.devdocs_mapper"] = {
-        transform_documentations = function() error("should not be called") end,
       }
 
       request = require("devdocs.infrastructure.external.requests.documentations_request")

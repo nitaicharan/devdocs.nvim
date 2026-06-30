@@ -1,12 +1,25 @@
 local make_logged = require("devdocs.application.helpers.make_logged")
 
+---@param content any
+---@return EntryModel[]
+local function transform_entries(content)
+  return vim.tbl_map(function(item)
+    local result = vim.tbl_filter(function(type)
+      return item.type == type.name
+    end, content.types)
+
+    local type = result[1] or {}
+
+    return vim.tbl_extend("force", item, { slug = type.slug })
+  end, content.entries)
+end
+
 ---@type EntriesProviderPort
 local M = {
   list = function(slug)
     assert(type(slug) == "string", "slug must be a string")
 
     local http_client = require("devdocs.infrastructure.external.clients.http_client")
-    local devdocs_mapper = require("devdocs.infrastructure.mappers.devdocs_mapper")
 
     -- TODO: use environment variable
     local url = string.format("https://documents.devdocs.io/%s/index.json", slug)
@@ -18,7 +31,7 @@ local M = {
       return nil
     end
 
-    return devdocs_mapper.transform_entries(result, slug)
+    return transform_entries(result)
   end,
 
   list_async = function(slug, on_success)
@@ -26,7 +39,6 @@ local M = {
     assert(type(on_success) == "function", "on_success must be a function")
 
     local http_client = require("devdocs.infrastructure.external.clients.http_client")
-    local devdocs_mapper = require("devdocs.infrastructure.mappers.devdocs_mapper")
     local url = string.format("https://documents.devdocs.io/%s/index.json", slug)
 
     http_client.get_async(url, function(response)
@@ -35,7 +47,7 @@ local M = {
         on_success(nil)
         return
       end
-      on_success(devdocs_mapper.transform_entries(result, slug))
+      on_success(transform_entries(result))
     end)
   end
 }

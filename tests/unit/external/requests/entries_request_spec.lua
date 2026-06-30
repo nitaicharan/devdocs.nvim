@@ -13,7 +13,6 @@ describe("entries_request", function()
   after_each(function()
     package.loaded["devdocs.application.usecases.log_usecase"] = nil
     package.loaded["devdocs.infrastructure.external.clients.http_client"] = nil
-    package.loaded["devdocs.infrastructure.mappers.devdocs_mapper"] = nil
     package.loaded["devdocs.infrastructure.external.requests.entries_request"] = nil
   end)
 
@@ -23,11 +22,10 @@ describe("entries_request", function()
 
       package.loaded["devdocs.infrastructure.external.clients.http_client"] = {
         get_async = function(url, callback)
-          callback({ body = '{"entries": []}' })
+          callback({
+            body = '{"entries": [{"name": "Array", "path": "array", "type": "Method"}], "types": [{"name": "Method", "slug": "lua~5.4"}]}',
+          })
         end,
-      }
-      package.loaded["devdocs.infrastructure.mappers.devdocs_mapper"] = {
-        transform_entries = function() return transformed end,
       }
 
       request = require("devdocs.infrastructure.external.requests.entries_request")
@@ -42,9 +40,6 @@ describe("entries_request", function()
         get_async = function(_, callback)
           callback({ body = "null" })
         end,
-      }
-      package.loaded["devdocs.infrastructure.mappers.devdocs_mapper"] = {
-        transform_entries = function() error("should not be called") end,
       }
 
       request = require("devdocs.infrastructure.external.requests.entries_request")

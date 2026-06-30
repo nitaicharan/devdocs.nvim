@@ -7,7 +7,6 @@ local M = {
 
     local http_client = require("devdocs.infrastructure.external.clients.http_client")
     local url = string.format("https://documents.devdocs.io/%s/db.json", id)
-    local devdocs_mapper = require("devdocs.infrastructure.mappers.devdocs_mapper")
 
     -- TODO: use environment variable
     local response = http_client.get(url)
@@ -17,7 +16,7 @@ local M = {
       return nil
     end
 
-    return devdocs_mapper.transform_documentations(body)
+    return body
   end,
 
   find_async = function(id, on_success)
@@ -26,7 +25,6 @@ local M = {
 
     local http_client = require("devdocs.infrastructure.external.clients.http_client")
     local url = string.format("https://documents.devdocs.io/%s/db.json", id)
-    local devdocs_mapper = require("devdocs.infrastructure.mappers.devdocs_mapper")
 
     http_client.get_async(url, function(response)
       local body = vim.fn.json_decode(response.body)
@@ -34,7 +32,7 @@ local M = {
         on_success(nil)
         return
       end
-      on_success(devdocs_mapper.transform_documentations(body))
+      on_success(body)
     end)
   end
 }
