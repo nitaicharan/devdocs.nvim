@@ -1,4 +1,4 @@
 ---@meta
---- Output port for buffer rendering. Implemented by infrastructure/gateways/buffer.lua.
+--- Output port for buffer rendering. Implemented by infrastructure/editor/buffer.lua.
 ---@class BufferPort
 ---@field create_scratch_buffer fun(lines: string[], filetype: string): number

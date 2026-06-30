@@ -29,4 +29,4 @@ M.transform_documentations = function(content)
   return result
 end
 
-return make_logged("gateways/devdocs_mapper", M)
+return make_logged("mappers/devdocs_mapper", M)

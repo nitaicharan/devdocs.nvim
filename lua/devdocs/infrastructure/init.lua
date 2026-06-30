@@ -11,7 +11,7 @@ local modules = {
   locks_repository = "devdocs.infrastructure.repositories.locks_repository",
   registries_repository = "devdocs.infrastructure.repositories.registeries_repository",
   picker = "devdocs.infrastructure.pickers.snacks_picker",
-  buffer = "devdocs.infrastructure.gateways.buffer",
+  buffer = "devdocs.infrastructure.editor.buffer",
 }
 
 for name, module in pairs(modules) do

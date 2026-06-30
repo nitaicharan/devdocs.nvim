@@ -7,7 +7,7 @@ describe("log_usecase", function()
   before_each(function()
     notify_calls = {}
 
-    package.loaded["devdocs.infrastructure.gateways.notifier"] = {
+    package.loaded["devdocs.infrastructure.editor.notifier"] = {
       notify = function(message, level)
         table.insert(notify_calls, { message = message, level = level })
       end,
@@ -23,7 +23,7 @@ describe("log_usecase", function()
   end)
 
   after_each(function()
-    package.loaded["devdocs.infrastructure.gateways.notifier"] = nil
+    package.loaded["devdocs.infrastructure.editor.notifier"] = nil
     package.loaded["devdocs.domain.defaults.setup_config"] = nil
     package.loaded["devdocs.application.usecases.log_usecase"] = nil
   end)

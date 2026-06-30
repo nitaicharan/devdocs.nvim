@@ -13,7 +13,7 @@ describe("documentations_request", function()
   after_each(function()
     package.loaded["devdocs.application.usecases.log_usecase"] = nil
     package.loaded["devdocs.infrastructure.clients.http_client"] = nil
-    package.loaded["devdocs.infrastructure.gateways.devdocs_mapper"] = nil
+    package.loaded["devdocs.infrastructure.mappers.devdocs_mapper"] = nil
     package.loaded["devdocs.infrastructure.requests.documentations_request"] = nil
   end)
 
@@ -26,7 +26,7 @@ describe("documentations_request", function()
           callback({ body = '{"array": "<h1>Array</h1>"}' })
         end,
       }
-      package.loaded["devdocs.infrastructure.gateways.devdocs_mapper"] = {
+      package.loaded["devdocs.infrastructure.mappers.devdocs_mapper"] = {
         transform_documentations = function() return transformed end,
       }
 
@@ -43,7 +43,7 @@ describe("documentations_request", function()
           callback({ body = "null" })
         end,
       }
-      package.loaded["devdocs.infrastructure.gateways.devdocs_mapper"] = {
+      package.loaded["devdocs.infrastructure.mappers.devdocs_mapper"] = {
         transform_documentations = function() error("should not be called") end,
       }
 

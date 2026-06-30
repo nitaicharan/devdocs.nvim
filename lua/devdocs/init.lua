@@ -1,7 +1,7 @@
 local M = {}
 
 M.setup = function()
-  require("devdocs.infrastructure.gateways")
+  require("devdocs.infrastructure")
   require("devdocs.application.usecases.lifecycle_usecase").on_plugin_init()
 end
 

@@ -1,4 +1,4 @@
-local notifier = require("devdocs.infrastructure.gateways.notifier")
+local notifier = require("devdocs.infrastructure.editor.notifier")
 
 return {
   ---@param message string

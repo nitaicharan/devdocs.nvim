@@ -1,7 +1,7 @@
 return {
   debug_mode = false,
   plataform = "devdocs",
-  dir_path = require("devdocs.infrastructure.gateways.path").stdpath("data") .. "/devdocs",
+  dir_path = require("devdocs.infrastructure.editor.path").stdpath("data") .. "/devdocs",
   telescope = {},
   filetypes = {},
   float_win = {

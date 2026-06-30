@@ -12,4 +12,4 @@ M.create_scratch_buffer = function(lines, filetype)
   return buf
 end
 
-return make_logged("gateways/buffer", M)
+return make_logged("editor/buffer", M)
