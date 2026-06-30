@@ -336,5 +336,76 @@ describe("documentations_usecase", function()
 
       assert.is_not_nil(log_error_message)
     end)
+
+    it("enriches locks with version, db_size, and doc_count", function()
+      package.loaded["devdocs.application.usecases.registries_usecase"] = {
+        list = function()
+          return {
+            { slug = "lua~5.4", name = "Lua", version = "5.4", db_size = 13002342 },
+          }
+        end,
+      }
+      package.loaded["devdocs.application.usecases.entries_usecase"] = {
+        find = function()
+          return { { name = "A" }, { name = "B" }, { name = "C" } }
+        end,
+      }
+      package.loaded["devdocs.application.usecases.documentations_usecase"] = nil
+      usecase = require("devdocs.application.usecases.documentations_usecase")
+
+      mock_locks_repository = {
+        list = function()
+          return { ["lua~5.4"] = { id = "lua~5.4", name = "Lua", installed_at = "2026-04-13T00:45:51+0100" } }
+        end,
+      }
+      mock_picker = {
+        locks = function(callback, locks)
+          picker_locks_args = { callback = callback, locks = locks }
+        end,
+      }
+
+      usecase.show()
+
+      assert.is_not_nil(picker_locks_args)
+      local item = picker_locks_args.locks[1]
+      assert.equals("5.4", item.version)
+      assert.equals(13002342, item.db_size)
+      assert.equals(3, item.doc_count)
+      assert.equals("2026-04-13T00:45:51+0100", item.installed_at)
+    end)
+
+    it("still yields an item when no registry matches the lock", function()
+      package.loaded["devdocs.application.usecases.registries_usecase"] = {
+        list = function()
+          return {}
+        end,
+      }
+      package.loaded["devdocs.application.usecases.entries_usecase"] = {
+        find = function()
+          return {}
+        end,
+      }
+      package.loaded["devdocs.application.usecases.documentations_usecase"] = nil
+      usecase = require("devdocs.application.usecases.documentations_usecase")
+
+      mock_locks_repository = {
+        list = function()
+          return { ["lua~5.4"] = { id = "lua~5.4", name = "Lua", installed_at = "2026-04-13T00:45:51+0100" } }
+        end,
+      }
+      mock_picker = {
+        locks = function(callback, locks)
+          picker_locks_args = { callback = callback, locks = locks }
+        end,
+      }
+
+      usecase.show()
+
+      local item = picker_locks_args.locks[1]
+      assert.equals("Lua", item.name)
+      assert.is_nil(item.version)
+      assert.is_nil(item.db_size)
+      assert.equals(0, item.doc_count)
+    end)
   end)
 end)

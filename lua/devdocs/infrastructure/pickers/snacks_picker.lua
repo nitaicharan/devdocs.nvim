@@ -62,6 +62,7 @@ local M = {
 
     local snacks = require("snacks")
     local relative_time = require("devdocs.infrastructure.utils.relative_time_util")
+    local bytes_util = require("devdocs.infrastructure.utils.bytes_util")
 
     local items = {}
     for idx, item in ipairs(models) do
@@ -74,11 +75,26 @@ local M = {
       source = 'select',
       items = items,
       format = function(item)
-        return {
+        local segments = {
           { "󱔘 ", "SnacksPickerIcon" },
           { item.name, "SnacksPickerLabel" },
-          { "  installed " .. relative_time.format(item.installed_at), "Comment" },
         }
+
+        local meta = {}
+        if item.version and item.version ~= "" then
+          table.insert(meta, "v" .. item.version)
+        end
+        if item.doc_count and item.doc_count > 0 then
+          table.insert(meta, item.doc_count .. " entries")
+        end
+        local size = bytes_util.format(item.db_size)
+        if size then
+          table.insert(meta, size)
+        end
+        table.insert(meta, "installed " .. relative_time.format(item.installed_at))
+
+        table.insert(segments, { "  " .. table.concat(meta, " · "), "Comment" })
+        return segments
       end,
       actions = {
         confirm = function(picker, item)

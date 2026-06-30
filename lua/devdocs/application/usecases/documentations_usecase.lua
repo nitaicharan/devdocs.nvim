@@ -60,6 +60,7 @@ local M = {
     local container = require("devdocs.application.ports.dependency_registry")
     local log_usecase = require("devdocs.application.usecases.log_usecase")
     local entries_usecase = require("devdocs.application.usecases.entries_usecase")
+    local registries_usecase = require("devdocs.application.usecases.registries_usecase")
 
     local repository = container.documentations_repository()
     local locks_repository = container.locks_repository()
@@ -88,7 +89,25 @@ local M = {
 
     local result = locks_repository.list() or {}
     if id == "" then
-      return picker.locks(locks_callback, vim.tbl_values(result))
+      local registries_by_slug = {}
+      for _, registry in ipairs(registries_usecase.list() or {}) do
+        registries_by_slug[registry.slug] = registry
+      end
+
+      local items = {}
+      for _, lock in pairs(result) do
+        local registry = registries_by_slug[lock.id]
+        table.insert(items, {
+          id = lock.id,
+          name = lock.name,
+          installed_at = lock.installed_at,
+          version = registry and registry.version or nil,
+          db_size = registry and registry.db_size or nil,
+          doc_count = #(entries_usecase.find(lock.id) or {}),
+        })
+      end
+
+      return picker.locks(locks_callback, items)
     end
   end,
 }
