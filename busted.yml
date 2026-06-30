@@ -1,0 +1,26 @@
+---
+# Globals provided by the minitest/busted-style spec runner, so `selene lua/`
+# does not flag the *_spec.lua files that live next to their source.
+globals:
+  describe:
+    args:
+      - type: string
+      - type: function
+  it:
+    args:
+      - type: string
+      - type: function
+  before_each:
+    args:
+      - type: function
+  after_each:
+    args:
+      - type: function
+  setup:
+    args:
+      - type: function
+  teardown:
+    args:
+      - type: function
+  pending:
+    any: true

@@ -1,4 +1,4 @@
-std="vim"
+std="vim+busted"
 
 [lints]
 mixed_table="allow"
