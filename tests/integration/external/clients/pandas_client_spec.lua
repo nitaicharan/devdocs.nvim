@@ -1,5 +1,5 @@
 local assert = require("luassert")
-local client = require("devdocs.infrastructure.clients.pandas_client")
+local client = require("devdocs.infrastructure.external.clients.pandas_client")
 
 describe("pandas_client", function()
   describe("html_to_markdown", function()

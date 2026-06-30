@@ -8,7 +8,7 @@ M.save = function(documentation_slug, id, content)
   assert(type(id) == "string", "id must be a string")
   assert(type(content) == "string", "content must be a string")
 
-  local pandas_client = require("devdocs.infrastructure.clients.pandas_client")
+  local pandas_client = require("devdocs.infrastructure.external.clients.pandas_client")
   local file_util = require("devdocs.infrastructure.utils.files_util")
   local setup_config = require("devdocs.domain.defaults.setup_config")
 

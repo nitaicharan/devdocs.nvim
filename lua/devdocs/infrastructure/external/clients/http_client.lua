@@ -27,4 +27,4 @@ M.get_async = function(url, callback, options)
   curl.get(url, options)
 end
 
-return make_logged("clients/http_client", M)
+return make_logged("external/clients/http_client", M)

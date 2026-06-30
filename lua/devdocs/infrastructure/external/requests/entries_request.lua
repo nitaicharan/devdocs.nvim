@@ -6,7 +6,7 @@ local M = {}
 M.list = function(slug)
   assert(type(slug) == "string", "slug must be a string")
 
-  local http_client = require("devdocs.infrastructure.clients.http_client")
+  local http_client = require("devdocs.infrastructure.external.clients.http_client")
   local devdocs_mapper = require("devdocs.infrastructure.mappers.devdocs_mapper")
 
   -- TODO: use environment variable
@@ -26,7 +26,7 @@ M.list_async = function(slug, on_success)
   assert(type(slug) == "string", "slug must be a string")
   assert(type(on_success) == "function", "on_success must be a function")
 
-  local http_client = require("devdocs.infrastructure.clients.http_client")
+  local http_client = require("devdocs.infrastructure.external.clients.http_client")
   local devdocs_mapper = require("devdocs.infrastructure.mappers.devdocs_mapper")
   local url = string.format("https://documents.devdocs.io/%s/index.json", slug)
 
@@ -40,4 +40,4 @@ M.list_async = function(slug, on_success)
   end)
 end
 
-return make_logged("requests/entries", M)
+return make_logged("external/requests/entries", M)

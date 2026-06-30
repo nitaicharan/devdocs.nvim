@@ -7,7 +7,7 @@ M.get = function(slug, document_path)
   assert(type(slug) == "string", "slug must be a string")
   assert(type(document_path) == "string", "document_path must be a string")
 
-  local http_client = require("devdocs.infrastructure.clients.http_client")
+  local http_client = require("devdocs.infrastructure.external.clients.http_client")
 
   local url = string.format("https://devdocs.io/%s/%s", slug, document_path)
 
@@ -16,4 +16,4 @@ M.get = function(slug, document_path)
   return response.body
 end
 
-return make_logged("requests/documents", M)
+return make_logged("external/requests/documents", M)

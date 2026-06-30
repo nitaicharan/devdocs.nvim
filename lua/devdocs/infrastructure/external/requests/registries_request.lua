@@ -4,7 +4,7 @@ local make_logged = require("devdocs.application.helpers.make_logged")
 local M = {}
 
 M.list = function()
-  local http_client = require("devdocs.infrastructure.clients.http_client")
+  local http_client = require("devdocs.infrastructure.external.clients.http_client")
 
   -- TODO: use environment variable
   local url = "https://devdocs.io/docs.json"
@@ -17,4 +17,4 @@ M.list = function()
   return vim.fn.json_decode(response.body)
 end
 
-return make_logged("requests/registries", M)
+return make_logged("external/requests/registries", M)

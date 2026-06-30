@@ -7,7 +7,7 @@ M.save = function(documentation, id)
   assert(type(documentation) == "table", "documentations param is required")
   assert(type(id) == "string", "id must be a string")
 
-  local pandas_client = require("devdocs.infrastructure.clients.pandas_client")
+  local pandas_client = require("devdocs.infrastructure.external.clients.pandas_client")
   local file_util = require("devdocs.infrastructure.utils.files_util")
   local setup_config = require("devdocs.domain.defaults.setup_config")
 
@@ -31,7 +31,7 @@ M.save_async = function(documentation, id, on_done)
   assert(type(id) == "string", "id must be a string")
   assert(type(on_done) == "function", "on_done must be a function")
 
-  local pandas_client = require("devdocs.infrastructure.clients.pandas_client")
+  local pandas_client = require("devdocs.infrastructure.external.clients.pandas_client")
   local file_util = require("devdocs.infrastructure.utils.files_util")
   local setup_config = require("devdocs.domain.defaults.setup_config")
 

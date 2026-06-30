@@ -35,4 +35,4 @@ M.html_to_markdown_async = function(html, on_success)
   end))
 end
 
-return make_logged("clients/pandas_client", M)
+return make_logged("external/clients/pandas_client", M)

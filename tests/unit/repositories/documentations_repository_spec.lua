@@ -14,7 +14,7 @@ describe("documentations_repository", function()
       error = function() end,
     }
 
-    package.loaded["devdocs.infrastructure.clients.pandas_client"] = {
+    package.loaded["devdocs.infrastructure.external.clients.pandas_client"] = {
       html_to_markdown_async = function(html, on_success)
         table.insert(converted_slugs, html)
         on_success("# converted")
@@ -38,7 +38,7 @@ describe("documentations_repository", function()
 
   after_each(function()
     package.loaded["devdocs.application.usecases.log_usecase"] = nil
-    package.loaded["devdocs.infrastructure.clients.pandas_client"] = nil
+    package.loaded["devdocs.infrastructure.external.clients.pandas_client"] = nil
     package.loaded["devdocs.infrastructure.utils.files_util"] = nil
     package.loaded["devdocs.domain.defaults.setup_config"] = nil
     package.loaded["devdocs.infrastructure.repositories.documentations_repository"] = nil

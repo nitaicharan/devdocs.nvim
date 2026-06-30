@@ -6,7 +6,7 @@ local M = {}
 M.find = function(id)
   assert(type(id) == "string", "slug must be a string")
 
-  local http_client = require("devdocs.infrastructure.clients.http_client")
+  local http_client = require("devdocs.infrastructure.external.clients.http_client")
   local url = string.format("https://documents.devdocs.io/%s/db.json", id)
   local devdocs_mapper = require("devdocs.infrastructure.mappers.devdocs_mapper")
 
@@ -25,7 +25,7 @@ M.find_async = function(id, on_success)
   assert(type(id) == "string", "slug must be a string")
   assert(type(on_success) == "function", "on_success must be a function")
 
-  local http_client = require("devdocs.infrastructure.clients.http_client")
+  local http_client = require("devdocs.infrastructure.external.clients.http_client")
   local url = string.format("https://documents.devdocs.io/%s/db.json", id)
   local devdocs_mapper = require("devdocs.infrastructure.mappers.devdocs_mapper")
 
@@ -39,4 +39,4 @@ M.find_async = function(id, on_success)
   end)
 end
 
-return make_logged("requests/documentations", M)
+return make_logged("external/requests/documentations", M)

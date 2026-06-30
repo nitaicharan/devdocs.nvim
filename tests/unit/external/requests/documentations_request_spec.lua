@@ -7,21 +7,21 @@ describe("documentations_request", function()
     package.loaded["devdocs.application.usecases.log_usecase"] = {
       debug = function() end,
     }
-    package.loaded["devdocs.infrastructure.requests.documentations_request"] = nil
+    package.loaded["devdocs.infrastructure.external.requests.documentations_request"] = nil
   end)
 
   after_each(function()
     package.loaded["devdocs.application.usecases.log_usecase"] = nil
-    package.loaded["devdocs.infrastructure.clients.http_client"] = nil
+    package.loaded["devdocs.infrastructure.external.clients.http_client"] = nil
     package.loaded["devdocs.infrastructure.mappers.devdocs_mapper"] = nil
-    package.loaded["devdocs.infrastructure.requests.documentations_request"] = nil
+    package.loaded["devdocs.infrastructure.external.requests.documentations_request"] = nil
   end)
 
   describe("find_async", function()
     it("calls http_client.get_async and passes transformed result to on_success", function()
       local transformed = { { path = "array", html = "<h1>Array</h1>" } }
 
-      package.loaded["devdocs.infrastructure.clients.http_client"] = {
+      package.loaded["devdocs.infrastructure.external.clients.http_client"] = {
         get_async = function(url, callback)
           callback({ body = '{"array": "<h1>Array</h1>"}' })
         end,
@@ -30,7 +30,7 @@ describe("documentations_request", function()
         transform_documentations = function() return transformed end,
       }
 
-      request = require("devdocs.infrastructure.requests.documentations_request")
+      request = require("devdocs.infrastructure.external.requests.documentations_request")
       local result
       request.find_async("lua~5.4", function(r) result = r end)
 
@@ -38,7 +38,7 @@ describe("documentations_request", function()
     end)
 
     it("passes nil to on_success when body decodes to nil", function()
-      package.loaded["devdocs.infrastructure.clients.http_client"] = {
+      package.loaded["devdocs.infrastructure.external.clients.http_client"] = {
         get_async = function(_, callback)
           callback({ body = "null" })
         end,
@@ -47,7 +47,7 @@ describe("documentations_request", function()
         transform_documentations = function() error("should not be called") end,
       }
 
-      request = require("devdocs.infrastructure.requests.documentations_request")
+      request = require("devdocs.infrastructure.external.requests.documentations_request")
       local result = "not_called"
       request.find_async("lua~5.4", function(r) result = r end)
 
@@ -55,12 +55,12 @@ describe("documentations_request", function()
     end)
 
     it("asserts on non-string slug", function()
-      request = require("devdocs.infrastructure.requests.documentations_request")
+      request = require("devdocs.infrastructure.external.requests.documentations_request")
       assert.has_error(function() request.find_async(123, function() end) end)
     end)
 
     it("asserts on non-function callback", function()
-      request = require("devdocs.infrastructure.requests.documentations_request")
+      request = require("devdocs.infrastructure.external.requests.documentations_request")
       assert.has_error(function() request.find_async("lua~5.4", "not a function") end)
     end)
   end)
