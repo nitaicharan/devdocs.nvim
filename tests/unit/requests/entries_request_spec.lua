@@ -13,7 +13,7 @@ describe("entries_request", function()
   after_each(function()
     package.loaded["devdocs.application.usecases.log_usecase"] = nil
     package.loaded["devdocs.infrastructure.clients.http_client"] = nil
-    package.loaded["devdocs.infrastructure.adapters.devdocs_adapter"] = nil
+    package.loaded["devdocs.infrastructure.gateways.devdocs_mapper"] = nil
     package.loaded["devdocs.infrastructure.requests.entries_request"] = nil
   end)
 
@@ -26,7 +26,7 @@ describe("entries_request", function()
           callback({ body = '{"entries": []}' })
         end,
       }
-      package.loaded["devdocs.infrastructure.adapters.devdocs_adapter"] = {
+      package.loaded["devdocs.infrastructure.gateways.devdocs_mapper"] = {
         transform_entries = function() return transformed end,
       }
 
@@ -43,7 +43,7 @@ describe("entries_request", function()
           callback({ body = "null" })
         end,
       }
-      package.loaded["devdocs.infrastructure.adapters.devdocs_adapter"] = {
+      package.loaded["devdocs.infrastructure.gateways.devdocs_mapper"] = {
         transform_entries = function() error("should not be called") end,
       }
 

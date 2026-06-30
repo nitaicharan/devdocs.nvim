@@ -7,7 +7,7 @@ M.list = function(slug)
   assert(type(slug) == "string", "slug must be a string")
 
   local http_client = require("devdocs.infrastructure.clients.http_client")
-  local devdocs_adapter = require("devdocs.infrastructure.adapters.devdocs_adapter")
+  local devdocs_mapper = require("devdocs.infrastructure.gateways.devdocs_mapper")
 
   -- TODO: use environment variable
   local url = string.format("https://documents.devdocs.io/%s/index.json", slug)
@@ -19,7 +19,7 @@ M.list = function(slug)
     return nil
   end
 
-  return devdocs_adapter.transform_entries(result, slug)
+  return devdocs_mapper.transform_entries(result, slug)
 end
 
 M.list_async = function(slug, on_success)
@@ -27,7 +27,7 @@ M.list_async = function(slug, on_success)
   assert(type(on_success) == "function", "on_success must be a function")
 
   local http_client = require("devdocs.infrastructure.clients.http_client")
-  local devdocs_adapter = require("devdocs.infrastructure.adapters.devdocs_adapter")
+  local devdocs_mapper = require("devdocs.infrastructure.gateways.devdocs_mapper")
   local url = string.format("https://documents.devdocs.io/%s/index.json", slug)
 
   http_client.get_async(url, function(response)
@@ -36,7 +36,7 @@ M.list_async = function(slug, on_success)
       on_success(nil)
       return
     end
-    on_success(devdocs_adapter.transform_entries(result, slug))
+    on_success(devdocs_mapper.transform_entries(result, slug))
   end)
 end
 

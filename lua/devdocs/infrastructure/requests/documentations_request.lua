@@ -8,7 +8,7 @@ M.find = function(id)
 
   local http_client = require("devdocs.infrastructure.clients.http_client")
   local url = string.format("https://documents.devdocs.io/%s/db.json", id)
-  local devdocs_adapter = require("devdocs.infrastructure.adapters.devdocs_adapter")
+  local devdocs_mapper = require("devdocs.infrastructure.gateways.devdocs_mapper")
 
   -- TODO: use environment variable
   local response = http_client.get(url)
@@ -18,7 +18,7 @@ M.find = function(id)
     return nil
   end
 
-  return devdocs_adapter.transform_documentations(body)
+  return devdocs_mapper.transform_documentations(body)
 end
 
 M.find_async = function(id, on_success)
@@ -27,7 +27,7 @@ M.find_async = function(id, on_success)
 
   local http_client = require("devdocs.infrastructure.clients.http_client")
   local url = string.format("https://documents.devdocs.io/%s/db.json", id)
-  local devdocs_adapter = require("devdocs.infrastructure.adapters.devdocs_adapter")
+  local devdocs_mapper = require("devdocs.infrastructure.gateways.devdocs_mapper")
 
   http_client.get_async(url, function(response)
     local body = vim.fn.json_decode(response.body)
@@ -35,7 +35,7 @@ M.find_async = function(id, on_success)
       on_success(nil)
       return
     end
-    on_success(devdocs_adapter.transform_documentations(body))
+    on_success(devdocs_mapper.transform_documentations(body))
   end)
 end
 

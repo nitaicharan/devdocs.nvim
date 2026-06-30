@@ -1,5 +1,0 @@
----@meta
---- Output port for transforming raw devdocs.io API responses into domain models. Implemented by infrastructure/adapters/devdocs_adapter.lua.
----@class DevdocsAdapterPort
----@field transform_entries fun(content: any, slug: string): EntryModel[] | nil
----@field transform_documentations fun(content: any): table

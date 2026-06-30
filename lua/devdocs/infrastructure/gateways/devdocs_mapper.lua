@@ -1,6 +1,6 @@
 local make_logged = require("devdocs.application.helpers.make_logged")
 
----@type DevdocsAdapterPort
+---@type DevdocsMapperPort
 local M = {}
 
 M.transform_entries = function(content, slug)
@@ -29,4 +29,4 @@ M.transform_documentations = function(content)
   return result
 end
 
-return make_logged("adapters/devdocs_adapter", M)
+return make_logged("gateways/devdocs_mapper", M)
