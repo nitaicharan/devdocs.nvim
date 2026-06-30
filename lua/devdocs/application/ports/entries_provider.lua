@@ -1,5 +1,5 @@
 ---@meta
 --- Output port for fetching documentation entry indices. Implemented by infrastructure/requests/entries_request.lua.
----@class EntriesRequestPort
+---@class EntriesProviderPort
 ---@field list fun(slug: string): EntryModel[] | nil
 ---@field list_async fun(slug: string, on_success: fun(result: EntryModel[] | nil))

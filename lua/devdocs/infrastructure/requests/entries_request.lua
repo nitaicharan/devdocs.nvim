@@ -1,6 +1,6 @@
 local make_logged = require("devdocs.application.helpers.make_logged")
 
----@type EntriesRequestPort
+---@type EntriesProviderPort
 local M = {}
 
 M.list = function(slug)

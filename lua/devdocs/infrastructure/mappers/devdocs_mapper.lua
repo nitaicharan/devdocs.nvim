@@ -1,6 +1,6 @@
 local make_logged = require("devdocs.application.helpers.make_logged")
 
----@type DevdocsMapperPort
+---@type DevdocsTranslatorPort
 local M = {}
 
 M.transform_entries = function(content, slug)

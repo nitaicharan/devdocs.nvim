@@ -1,4 +1,4 @@
-local registry = require("devdocs.application.ports.adapter_registry")
+local registry = require("devdocs.application.ports.dependency_registry")
 
 local modules = {
   documentations_request = "devdocs.infrastructure.requests.documentations_request",

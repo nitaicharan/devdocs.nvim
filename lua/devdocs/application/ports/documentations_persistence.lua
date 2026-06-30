@@ -1,6 +1,6 @@
 ---@meta
 --- Output port for persisting and reading documentation content. Implemented by infrastructure/repositories/documentations_repository.lua.
----@class DocumentationsRepositoryPort
+---@class DocumentationsPersistencePort
 ---@field save fun(documentations: table<string,string>, slug: string)
 ---@field save_async fun(documentations: table<string,string>, slug: string, on_done: fun())
 ---@field find fun(slug: string, document_path: string): string

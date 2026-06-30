@@ -18,7 +18,7 @@ describe("registries_usecase", function()
       error = function() end,
     }
 
-    package.loaded["devdocs.application.ports.adapter_registry"] = {
+    package.loaded["devdocs.application.ports.dependency_registry"] = {
       registries_request = function() return mock_request end,
       registries_repository = function() return mock_repository end,
     }
@@ -30,7 +30,7 @@ describe("registries_usecase", function()
   after_each(function()
     package.loaded["devdocs.application.helpers.make_logged"] = nil
     package.loaded["devdocs.application.usecases.log_usecase"] = nil
-    package.loaded["devdocs.application.ports.adapter_registry"] = nil
+    package.loaded["devdocs.application.ports.dependency_registry"] = nil
     package.loaded["devdocs.application.usecases.registries_usecase"] = nil
   end)
 

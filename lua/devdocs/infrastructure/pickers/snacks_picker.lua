@@ -1,6 +1,6 @@
 local make_logged = require("devdocs.application.helpers.make_logged")
 
----@type PickerPort
+---@type SelectorPort
 local M = {}
 
 M.entries = function(callback, id, entries)

@@ -1,6 +1,6 @@
 local make_logged = require("devdocs.application.helpers.make_logged")
 
----@type RegistriesRepositoryPort
+---@type RegistriesPersistencePort
 local M = {}
 
 M.save = function(data)

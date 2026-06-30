@@ -7,7 +7,7 @@ local M = {}
 M.install = function(id)
   assert(type(id) == "string", "id must be a string")
 
-  local container = require("devdocs.application.ports.adapter_registry")
+  local container = require("devdocs.application.ports.dependency_registry")
   local request = container.entries_request()
   local repository = container.entries_repository()
 
@@ -24,7 +24,7 @@ end
 M.install_async = function(id, on_done)
   assert(type(id) == "string", "id must be a string")
 
-  local container = require("devdocs.application.ports.adapter_registry")
+  local container = require("devdocs.application.ports.dependency_registry")
   local request = container.entries_request()
   local repository = container.entries_repository()
 
@@ -43,7 +43,7 @@ end
 M.find = function(id)
   assert(type(id) == "string", "id must be a string")
 
-  local container = require("devdocs.application.ports.adapter_registry")
+  local container = require("devdocs.application.ports.dependency_registry")
   local repository = container.entries_repository()
 
   return repository.find(id)

@@ -1,5 +1,5 @@
 ---@meta
 --- Output port for persisting the devdocs registry. Implemented by infrastructure/repositories/registeries_repository.lua.
----@class RegistriesRepositoryPort
+---@class RegistriesPersistencePort
 ---@field save fun(registry: RegistryModel[])
 ---@field list fun(): RegistryModel[] | nil

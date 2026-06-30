@@ -1,6 +1,6 @@
 local make_logged = require("devdocs.application.helpers.make_logged")
 
----@type DocumentsRepositoryPort
+---@type DocumentsPersistencePort
 local M = {}
 
 M.save = function(documentation_slug, id, content)

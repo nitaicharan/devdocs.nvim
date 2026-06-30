@@ -1,5 +1,5 @@
 ---@meta
 --- Output port for transforming raw devdocs.io API responses into domain models. Implemented by infrastructure/mappers/devdocs_mapper.lua.
----@class DevdocsMapperPort
+---@class DevdocsTranslatorPort
 ---@field transform_entries fun(content: any, slug: string): EntryModel[] | nil
 ---@field transform_documentations fun(content: any): table

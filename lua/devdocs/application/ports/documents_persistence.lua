@@ -1,4 +1,4 @@
 ---@meta
 --- Output port for persisting individual document pages. Implemented by infrastructure/repositories/documents_repository.lua.
----@class DocumentsRepositoryPort
+---@class DocumentsPersistencePort
 ---@field save fun(documentation_slug: string, slug: string, content: string)

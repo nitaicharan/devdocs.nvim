@@ -8,7 +8,7 @@ M.install = function(id)
   id = id or ""
   assert(type(id) == "string", "id must be a string")
 
-  local container = require("devdocs.application.ports.adapter_registry")
+  local container = require("devdocs.application.ports.dependency_registry")
   local log_usecase = require("devdocs.application.usecases.log_usecase")
   local registeries_usecase = require("devdocs.application.usecases.registries_usecase")
   local entries_usecase = require("devdocs.application.usecases.entries_usecase")
@@ -58,7 +58,7 @@ end
 M.show = function(id)
   id = id or ""
 
-  local container = require("devdocs.application.ports.adapter_registry")
+  local container = require("devdocs.application.ports.dependency_registry")
   local log_usecase = require("devdocs.application.usecases.log_usecase")
   local entries_usecase = require("devdocs.application.usecases.entries_usecase")
 

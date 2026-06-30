@@ -1,5 +1,5 @@
 local make_logged = require("devdocs.application.helpers.make_logged")
-local container = require("devdocs.application.ports.adapter_registry")
+local container = require("devdocs.application.ports.dependency_registry")
 
 ---@class RegistriesUsecase
 local M = {}
