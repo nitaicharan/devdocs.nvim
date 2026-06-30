@@ -34,7 +34,7 @@ local M = {
       end
       on_success(body)
     end)
-  end
+  end,
 }
 
 return make_logged("external/providers/documentations", M)

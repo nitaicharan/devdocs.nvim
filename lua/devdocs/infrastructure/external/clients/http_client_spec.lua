@@ -37,7 +37,9 @@ describe("http_client", function()
     it("merges additional options with callback", function()
       local captured_options
       package.loaded["plenary.curl"] = {
-        get = function(_, options) captured_options = options end,
+        get = function(_, options)
+          captured_options = options
+        end,
       }
 
       http_client = require("devdocs.infrastructure.external.clients.http_client")
@@ -49,12 +51,16 @@ describe("http_client", function()
 
     it("asserts on non-string url", function()
       http_client = require("devdocs.infrastructure.external.clients.http_client")
-      assert.has_error(function() http_client.get_async(123, function() end) end)
+      assert.has_error(function()
+        http_client.get_async(123, function() end)
+      end)
     end)
 
     it("asserts on non-function callback", function()
       http_client = require("devdocs.infrastructure.external.clients.http_client")
-      assert.has_error(function() http_client.get_async("https://example.com", "not a function") end)
+      assert.has_error(function()
+        http_client.get_async("https://example.com", "not a function")
+      end)
     end)
   end)
 end)

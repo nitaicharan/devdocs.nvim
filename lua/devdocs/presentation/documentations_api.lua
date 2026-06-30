@@ -1,6 +1,6 @@
+local documentations_usecase = require("devdocs.application.usecases.documentations_usecase")
 local make_logged = require("devdocs.application.helpers.make_logged")
 local registries_usecase = require("devdocs.application.usecases.registries_usecase")
-local documentations_usecase = require("devdocs.application.usecases.documentations_usecase")
 
 local M = {
   ---@param registery_name string
@@ -23,7 +23,7 @@ local M = {
   install = function(slug)
     assert(type(slug) == "string", "slug must be a string")
     documentations_usecase.install(slug)
-  end
+  end,
 }
 
 return make_logged("presentation/documentations_api", M)

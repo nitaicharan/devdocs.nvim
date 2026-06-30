@@ -20,7 +20,7 @@ local M = {
     local path = file_util.joinpath(vim.fn.stdpath("data"), "devdocs", setup_config.plataform, "registry.json")
 
     return file_util.read(path)
-  end
+  end,
 }
 
 return make_logged("repositories/registeries", M)

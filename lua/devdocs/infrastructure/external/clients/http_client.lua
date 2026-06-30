@@ -24,7 +24,7 @@ local M = {
     options.callback = vim.schedule_wrap(callback)
 
     curl.get(url, options)
-  end
+  end,
 }
 
 return make_logged("external/clients/http_client", M)

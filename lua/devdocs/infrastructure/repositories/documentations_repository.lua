@@ -18,7 +18,7 @@ local M = {
         return
       end
 
-      local path = file_util.joinpath(vim.fn.stdpath("data"), "devdocs", setup_config.plataform, id, slug .. '.md')
+      local path = file_util.joinpath(vim.fn.stdpath("data"), "devdocs", setup_config.plataform, id, slug .. ".md")
 
       file_util.write(path, markdown)
       counter = counter + 1
@@ -52,13 +52,8 @@ local M = {
       index = index + 1
 
       pandas_client.html_to_markdown_async(page.document, function(markdown)
-        local path = file_util.joinpath(
-          vim.fn.stdpath("data"),
-          "devdocs",
-          setup_config.plataform,
-          id,
-          page.slug .. ".md"
-        )
+        local path =
+          file_util.joinpath(vim.fn.stdpath("data"), "devdocs", setup_config.plataform, id, page.slug .. ".md")
         file_util.write(path, markdown)
         process_next()
       end)
@@ -74,9 +69,9 @@ local M = {
     local file_util = require("devdocs.infrastructure.utils.files_util")
     local setup_config = require("devdocs.domain.defaults.setup_config")
 
-    local path = file_util.joinpath(vim.fn.stdpath("data"), "devdocs", setup_config.plataform, id, slug .. '.md')
+    local path = file_util.joinpath(vim.fn.stdpath("data"), "devdocs", setup_config.plataform, id, slug .. ".md")
     return file_util.read(path)
-  end
+  end,
 }
 
 return make_logged("repositories/documentations", M)

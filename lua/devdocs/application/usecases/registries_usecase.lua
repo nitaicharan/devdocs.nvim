@@ -1,5 +1,5 @@
-local make_logged = require("devdocs.application.helpers.make_logged")
 local container = require("devdocs.application.ports.dependency_registry")
+local make_logged = require("devdocs.application.helpers.make_logged")
 
 ---@class RegistriesUsecase
 local M = {
@@ -21,7 +21,7 @@ local M = {
     local repository = container.registries_repository()
 
     return repository.list()
-  end
+  end,
 }
 
 return make_logged("usecases/registries", M)

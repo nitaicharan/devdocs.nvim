@@ -61,18 +61,25 @@ local M = {
     assert(type(models) == "table", "models must be a table")
 
     local snacks = require("snacks")
+    local relative_time = require("devdocs.infrastructure.utils.relative_time_util")
 
     local items = {}
     for idx, item in ipairs(models) do
-      local text = string.format("[%s]: installed:%s updated:%s", item.name, item.installed_at, item.updated_at)
-      local result = vim.tbl_extend("force", item, { idx = idx, text = text })
+      -- keep `text` = name so Snacks fuzzy-matching still filters by doc name
+      local result = vim.tbl_extend("force", item, { idx = idx, text = item.name })
       table.insert(items, result)
     end
 
     snacks.picker.pick({
       source = 'select',
       items = items,
-      format = "text",
+      format = function(item)
+        return {
+          { "󱔘 ", "SnacksPickerIcon" },
+          { item.name, "SnacksPickerLabel" },
+          { "  installed " .. relative_time.format(item.installed_at), "Comment" },
+        }
+      end,
       actions = {
         confirm = function(picker, item)
           picker:close()
@@ -81,7 +88,7 @@ local M = {
       },
       preview = "none",
     })
-  end
+  end,
 }
 
 return make_logged("pickers/snacks_picker", M)

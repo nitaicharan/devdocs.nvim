@@ -14,7 +14,7 @@ local M = {
     })
 
     return vim.fn.json_decode(response.body)
-  end
+  end,
 }
 
 return make_logged("external/providers/registries", M)

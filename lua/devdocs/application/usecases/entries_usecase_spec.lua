@@ -21,8 +21,12 @@ describe("entries_usecase", function()
     }
 
     package.loaded["devdocs.application.ports.dependency_registry"] = {
-      entries_provider = function() return mock_provider end,
-      entries_repository = function() return mock_repository end,
+      entries_provider = function()
+        return mock_provider
+      end,
+      entries_repository = function()
+        return mock_repository
+      end,
     }
 
     package.loaded["devdocs.application.usecases.entries_usecase"] = nil
@@ -39,7 +43,11 @@ describe("entries_usecase", function()
   describe("install", function()
     it("fetches and saves entries", function()
       local mock_entries = { { name = "Array", path = "array" } }
-      mock_provider = { list = function() return mock_entries end }
+      mock_provider = {
+        list = function()
+          return mock_entries
+        end,
+      }
       mock_repository = {
         save = function(entries, id)
           saved_entries = entries
@@ -54,9 +62,15 @@ describe("entries_usecase", function()
     end)
 
     it("returns early when provider returns nil", function()
-      mock_provider = { list = function() return nil end }
+      mock_provider = {
+        list = function()
+          return nil
+        end,
+      }
       mock_repository = {
-        save = function() error("should not be called") end,
+        save = function()
+          error("should not be called")
+        end,
       }
 
       usecase.install("lua~5.4")
@@ -73,7 +87,9 @@ describe("entries_usecase", function()
     it("fetches and saves entries asynchronously", function()
       local mock_entries = { { name = "Array", path = "array" } }
       mock_provider = {
-        list_async = function(slug, on_success) on_success(mock_entries) end,
+        list_async = function(slug, on_success)
+          on_success(mock_entries)
+        end,
       }
       mock_repository = {
         save = function(entries, id)
@@ -93,8 +109,16 @@ describe("entries_usecase", function()
     end)
 
     it("calls on_done even when provider returns nil", function()
-      mock_provider = { list_async = function(_, on_success) on_success(nil) end }
-      mock_repository = { save = function() error("should not be called") end }
+      mock_provider = {
+        list_async = function(_, on_success)
+          on_success(nil)
+        end,
+      }
+      mock_repository = {
+        save = function()
+          error("should not be called")
+        end,
+      }
       local done_called = false
 
       usecase.install_async("lua~5.4", function()
@@ -105,7 +129,11 @@ describe("entries_usecase", function()
     end)
 
     it("works without on_done callback", function()
-      mock_provider = { list_async = function(_, on_success) on_success(nil) end }
+      mock_provider = {
+        list_async = function(_, on_success)
+          on_success(nil)
+        end,
+      }
       mock_repository = { save = function() end }
 
       assert.has_no.errors(function()
@@ -123,7 +151,9 @@ describe("entries_usecase", function()
   describe("find", function()
     it("returns entries from repository", function()
       mock_repository = {
-        find = function(id) return { { name = "Array", path = "array", type = "Method", slug = id } } end,
+        find = function(id)
+          return { { name = "Array", path = "array", type = "Method", slug = id } }
+        end,
       }
 
       local result = usecase.find("lua~5.4")
@@ -132,7 +162,11 @@ describe("entries_usecase", function()
     end)
 
     it("returns nil when repository has no data", function()
-      mock_repository = { find = function() return nil end }
+      mock_repository = {
+        find = function()
+          return nil
+        end,
+      }
 
       local result = usecase.find("nonexistent")
 

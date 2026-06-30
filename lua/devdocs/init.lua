@@ -10,7 +10,7 @@ local M = {
 
   api = {
     documentations = require("devdocs.presentation.documentations_api"),
-  }
+  },
 }
 
 return M

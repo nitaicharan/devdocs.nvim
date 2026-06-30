@@ -16,11 +16,11 @@ local M = {
       return
     end
 
-    local path = file_util.joinpath(vim.fn.stdpath("data"), "devdocs", setup_config.plataform, documentation_slug,
-      id .. '.md')
+    local path =
+      file_util.joinpath(vim.fn.stdpath("data"), "devdocs", setup_config.plataform, documentation_slug, id .. ".md")
 
     file_util.write(path, markdown)
-  end
+  end,
 }
 
 return make_logged("repositories/documents", M)

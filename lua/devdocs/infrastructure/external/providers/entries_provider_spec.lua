@@ -30,7 +30,9 @@ describe("entries_provider", function()
 
       provider = require("devdocs.infrastructure.external.providers.entries_provider")
       local result
-      provider.list_async("lua~5.4", function(r) result = r end)
+      provider.list_async("lua~5.4", function(r)
+        result = r
+      end)
 
       assert.same(transformed, result)
     end)
@@ -44,14 +46,18 @@ describe("entries_provider", function()
 
       provider = require("devdocs.infrastructure.external.providers.entries_provider")
       local result = "not_called"
-      provider.list_async("lua~5.4", function(r) result = r end)
+      provider.list_async("lua~5.4", function(r)
+        result = r
+      end)
 
       assert.is_nil(result)
     end)
 
     it("asserts on non-string slug", function()
       provider = require("devdocs.infrastructure.external.providers.entries_provider")
-      assert.has_error(function() provider.list_async(123, function() end) end)
+      assert.has_error(function()
+        provider.list_async(123, function() end)
+      end)
     end)
   end)
 end)

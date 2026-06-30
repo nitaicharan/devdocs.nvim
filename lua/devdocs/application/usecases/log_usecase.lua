@@ -24,5 +24,5 @@ return {
   ---@param message string
   error = function(message)
     notifier.notify(message, notifier.levels.ERROR)
-  end
+  end,
 }

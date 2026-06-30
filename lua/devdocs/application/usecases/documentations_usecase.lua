@@ -21,7 +21,7 @@ local M = {
       assert(type(registry) ~= "nil", "registry param is required")
 
       if registry == nil then
-        return;
+        return
       end
 
       log_usecase.info(string.format("Installing %s documentation...", registry.name))
@@ -46,7 +46,7 @@ local M = {
       return log_usecase.error("Registries not found!")
     end
 
-    if (id == "") then
+    if id == "" then
       return picker.registries(callback, registries)
     end
 
@@ -80,17 +80,17 @@ local M = {
         local document = repository.find(lock.id, path)
         local lines = vim.split(document, "\n")
 
-        buffer.create_scratch_buffer(lines, 'markdown')
+        buffer.create_scratch_buffer(lines, "markdown")
       end
 
       picker.entries(callback, lock.id, entries)
     end
 
     local result = locks_repository.list() or {}
-    if (id == "") then
+    if id == "" then
       return picker.locks(locks_callback, vim.tbl_values(result))
     end
-  end
+  end,
 }
 
 return make_logged("usecases/documentations", M)

@@ -9,7 +9,12 @@ describe("registries_usecase", function()
   before_each(function()
     saved_data = nil
     mock_provider = { list = function() end }
-    mock_repository = { list = function() return nil end, save = function() end }
+    mock_repository = {
+      list = function()
+        return nil
+      end,
+      save = function() end,
+    }
 
     package.loaded["devdocs.application.usecases.log_usecase"] = {
       debug = function() end,
@@ -19,8 +24,12 @@ describe("registries_usecase", function()
     }
 
     package.loaded["devdocs.application.ports.dependency_registry"] = {
-      registries_provider = function() return mock_provider end,
-      registries_repository = function() return mock_repository end,
+      registries_provider = function()
+        return mock_provider
+      end,
+      registries_repository = function()
+        return mock_repository
+      end,
     }
 
     package.loaded["devdocs.application.usecases.registries_usecase"] = nil
@@ -37,10 +46,18 @@ describe("registries_usecase", function()
   describe("install", function()
     it("fetches and saves registry when not installed", function()
       local mock_data = { { slug = "lua", name = "Lua" } }
-      mock_provider = { list = function() return mock_data end }
+      mock_provider = {
+        list = function()
+          return mock_data
+        end,
+      }
       mock_repository = {
-        list = function() return nil end,
-        save = function(data) saved_data = data end,
+        list = function()
+          return nil
+        end,
+        save = function(data)
+          saved_data = data
+        end,
       }
 
       usecase.install()
@@ -49,10 +66,18 @@ describe("registries_usecase", function()
     end)
 
     it("skips fetch when registry already exists", function()
-      mock_provider = { list = function() error("should not be called") end }
+      mock_provider = {
+        list = function()
+          error("should not be called")
+        end,
+      }
       mock_repository = {
-        list = function() return { { slug = "lua" } } end,
-        save = function() error("should not be called") end,
+        list = function()
+          return { { slug = "lua" } }
+        end,
+        save = function()
+          error("should not be called")
+        end,
       }
 
       usecase.install()
@@ -62,7 +87,11 @@ describe("registries_usecase", function()
   describe("list", function()
     it("returns repository result", function()
       local mock_data = { { slug = "lua", name = "Lua" } }
-      mock_repository = { list = function() return mock_data end }
+      mock_repository = {
+        list = function()
+          return mock_data
+        end,
+      }
 
       local result = usecase.list()
 
@@ -70,7 +99,11 @@ describe("registries_usecase", function()
     end)
 
     it("returns nil when repository has no data", function()
-      mock_repository = { list = function() return nil end }
+      mock_repository = {
+        list = function()
+          return nil
+        end,
+      }
 
       local result = usecase.list()
 

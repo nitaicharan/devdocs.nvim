@@ -13,7 +13,7 @@ local M = {
     -- TODO: use environment variable
     local response = http_client.get(url)
     return response.body
-  end
+  end,
 }
 
 return make_logged("external/providers/documents", M)

@@ -49,7 +49,7 @@ local M = {
       end
       on_success(transform_entries(result))
     end)
-  end
+  end,
 }
 
 return make_logged("external/providers/entries", M)

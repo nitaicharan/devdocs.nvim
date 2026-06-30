@@ -10,9 +10,7 @@ return function(module_name, module)
       end
 
       return function(...)
-        log_usecase.debug(
-          "[" .. module_name .. "->" .. func_name .. "]:" .. vim.inspect({ ... })
-        )
+        log_usecase.debug("[" .. module_name .. "->" .. func_name .. "]:" .. vim.inspect({ ... }))
         return original(...)
       end
     end,

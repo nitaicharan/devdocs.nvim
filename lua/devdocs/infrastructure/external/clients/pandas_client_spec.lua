@@ -39,7 +39,7 @@ describe("pandas_client", function()
       local input = [[<pre data-language="javascript">console.log("Hello World")</pre>]]
       local result = client.html_to_markdown(input)
       assert.is_truthy(result:match("```"))
-      assert.is_truthy(result:match('console%.log'))
+      assert.is_truthy(result:match("console%.log"))
     end)
 
     it("converts <table>", function()
@@ -89,7 +89,9 @@ describe("pandas_client", function()
       end)
 
       -- vim.system is async; in test env we need to wait for completion
-      vim.wait(5000, function() return done end)
+      vim.wait(5000, function()
+        return done
+      end)
 
       assert.is_true(done)
       assert.is_not_nil(result)
@@ -105,18 +107,24 @@ describe("pandas_client", function()
         done = true
       end)
 
-      vim.wait(5000, function() return done end)
+      vim.wait(5000, function()
+        return done
+      end)
 
       assert.is_true(done)
       assert.is_not_nil(result)
     end)
 
     it("asserts on non-string html", function()
-      assert.has_error(function() client.html_to_markdown_async(123, function() end) end)
+      assert.has_error(function()
+        client.html_to_markdown_async(123, function() end)
+      end)
     end)
 
     it("asserts on non-function callback", function()
-      assert.has_error(function() client.html_to_markdown_async("<h1>X</h1>", "not a fn") end)
+      assert.has_error(function()
+        client.html_to_markdown_async("<h1>X</h1>", "not a fn")
+      end)
     end)
   end)
 end)

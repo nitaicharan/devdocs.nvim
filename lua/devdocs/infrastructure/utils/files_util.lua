@@ -47,7 +47,7 @@ local M = {
     local plenary = require("plenary.path"):new(path)
 
     plenary:mkdir({ parents = true })
-  end
+  end,
 }
 
 return make_logged("utils/files_util", M)

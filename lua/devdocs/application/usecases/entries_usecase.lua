@@ -29,11 +29,15 @@ local M = {
 
     provider.list_async(id, function(entries)
       if entries == nil then
-        if on_done then on_done() end
+        if on_done then
+          on_done()
+        end
         return
       end
       repository.save(entries, id)
-      if on_done then on_done() end
+      if on_done then
+        on_done()
+      end
     end)
   end,
 
@@ -46,7 +50,7 @@ local M = {
     local repository = container.entries_repository()
 
     return repository.find(id)
-  end
+  end,
 }
 
 return make_logged("usecases/entries", M)

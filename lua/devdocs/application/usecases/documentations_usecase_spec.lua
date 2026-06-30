@@ -35,7 +35,12 @@ describe("documentations_usecase", function()
     mock_registries_repository = { list = function() end }
     mock_entries_provider = {}
     mock_entries_repository = {}
-    mock_locks_repository = { save = function() end, list = function() return {} end }
+    mock_locks_repository = {
+      save = function() end,
+      list = function()
+        return {}
+      end,
+    }
     mock_picker = {
       registries = function() end,
       locks = function() end,
@@ -52,7 +57,9 @@ describe("documentations_usecase", function()
       debug = function() end,
       info = function() end,
       warn = function() end,
-      error = function(msg) log_error_message = msg end,
+      error = function(msg)
+        log_error_message = msg
+      end,
     }
 
     package.loaded["devdocs.application.usecases.registries_usecase"] = {
@@ -67,7 +74,9 @@ describe("documentations_usecase", function()
       end,
       install_async = function(slug, on_done)
         entries_install_args = { slug = slug }
-        if on_done then on_done() end
+        if on_done then
+          on_done()
+        end
       end,
       find = function(id)
         return { { name = "Array", path = "array#section", type = "Method" } }
@@ -75,14 +84,30 @@ describe("documentations_usecase", function()
     }
 
     package.loaded["devdocs.application.ports.dependency_registry"] = {
-      documentations_provider = function() return mock_provider end,
-      documentations_repository = function() return mock_repository end,
-      registries_repository = function() return mock_registries_repository end,
-      entries_provider = function() return mock_entries_provider end,
-      entries_repository = function() return mock_entries_repository end,
-      locks_repository = function() return mock_locks_repository end,
-      picker = function() return mock_picker end,
-      buffer = function() return mock_buffer end,
+      documentations_provider = function()
+        return mock_provider
+      end,
+      documentations_repository = function()
+        return mock_repository
+      end,
+      registries_repository = function()
+        return mock_registries_repository
+      end,
+      entries_provider = function()
+        return mock_entries_provider
+      end,
+      entries_repository = function()
+        return mock_entries_repository
+      end,
+      locks_repository = function()
+        return mock_locks_repository
+      end,
+      picker = function()
+        return mock_picker
+      end,
+      buffer = function()
+        return mock_buffer
+      end,
     }
 
     package.loaded["devdocs.application.usecases.documentations_usecase"] = nil
@@ -101,7 +126,11 @@ describe("documentations_usecase", function()
   describe("install", function()
     it("fetches, saves doc, installs entries, and saves lock via picker callback", function()
       local mock_doc = { html = "<h1>Lua</h1>" }
-      mock_provider = { find_async = function(slug, on_success) on_success(mock_doc) end }
+      mock_provider = {
+        find_async = function(slug, on_success)
+          on_success(mock_doc)
+        end,
+      }
       mock_repository = {
         save_async = function(doc, slug, on_done)
           saved_doc_args = { doc = doc, slug = slug }
@@ -109,7 +138,9 @@ describe("documentations_usecase", function()
         end,
       }
       mock_locks_repository = {
-        save = function(data) saved_lock_args = data end,
+        save = function(data)
+          saved_lock_args = data
+        end,
       }
       mock_picker = {
         registries = function(callback, registries)
@@ -132,12 +163,20 @@ describe("documentations_usecase", function()
     end)
 
     it("returns early when provider.find_async returns nil", function()
-      mock_provider = { find_async = function(slug, on_success) on_success(nil) end }
+      mock_provider = {
+        find_async = function(slug, on_success)
+          on_success(nil)
+        end,
+      }
       mock_repository = {
-        save_async = function() error("should not be called") end,
+        save_async = function()
+          error("should not be called")
+        end,
       }
       mock_locks_repository = {
-        save = function() error("should not be called") end,
+        save = function()
+          error("should not be called")
+        end,
       }
       mock_picker = {
         registries = function(callback)
@@ -165,7 +204,9 @@ describe("documentations_usecase", function()
 
     it("errors when registries list returns nil", function()
       package.loaded["devdocs.application.usecases.registries_usecase"] = {
-        list = function() return nil end,
+        list = function()
+          return nil
+        end,
       }
 
       package.loaded["devdocs.application.usecases.documentations_usecase"] = nil
@@ -241,7 +282,9 @@ describe("documentations_usecase", function()
 
     it("entry callback reads document and creates buffer", function()
       mock_repository = {
-        find = function() return "# Lua\n\nContent here" end,
+        find = function()
+          return "# Lua\n\nContent here"
+        end,
       }
       mock_locks_repository = {
         list = function()
@@ -267,7 +310,9 @@ describe("documentations_usecase", function()
     it("locks callback errors when entries not found", function()
       package.loaded["devdocs.application.usecases.entries_usecase"] = {
         install = function() end,
-        find = function() return nil end,
+        find = function()
+          return nil
+        end,
       }
 
       package.loaded["devdocs.application.usecases.documentations_usecase"] = nil
@@ -282,7 +327,9 @@ describe("documentations_usecase", function()
         locks = function(callback)
           callback({ id = "lua~5.4", name = "Lua" })
         end,
-        entries = function() error("should not be called") end,
+        entries = function()
+          error("should not be called")
+        end,
       }
 
       usecase.show()

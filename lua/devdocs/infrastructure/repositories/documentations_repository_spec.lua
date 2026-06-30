@@ -22,7 +22,9 @@ describe("documentations_repository", function()
     }
 
     package.loaded["devdocs.infrastructure.utils.files_util"] = {
-      joinpath = function(...) return table.concat({ ... }, "/") end,
+      joinpath = function(...)
+        return table.concat({ ... }, "/")
+      end,
       write = function(path, content)
         table.insert(written_files, { path = path, content = content })
       end,

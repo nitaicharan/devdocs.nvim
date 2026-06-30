@@ -4,7 +4,7 @@ local make_logged = require("devdocs.application.helpers.make_logged")
 local M = {
   on_plugin_init = function()
     require("devdocs.application.usecases.registries_usecase").install()
-  end
+  end,
 }
 
 return make_logged("usecases/lifecycle", M)

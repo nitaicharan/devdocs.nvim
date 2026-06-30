@@ -8,7 +8,9 @@ describe("make_logged", function()
     debug_messages = {}
 
     package.loaded["devdocs.application.usecases.log_usecase"] = {
-      debug = function(msg) table.insert(debug_messages, msg) end,
+      debug = function(msg)
+        table.insert(debug_messages, msg)
+      end,
       info = function() end,
       warn = function() end,
       error = function() end,
@@ -25,7 +27,9 @@ describe("make_logged", function()
 
   it("forwards function calls with correct args and return value", function()
     local module = {
-      add = function(a, b) return a + b end,
+      add = function(a, b)
+        return a + b
+      end,
     }
 
     local logged = make_logged("math_module", module)
@@ -36,7 +40,9 @@ describe("make_logged", function()
 
   it("emits debug log with module name, function name, and args", function()
     local module = {
-      greet = function(name) return "hello " .. name end,
+      greet = function(name)
+        return "hello " .. name
+      end,
     }
 
     local logged = make_logged("my_module", module)
@@ -62,7 +68,9 @@ describe("make_logged", function()
 
   it("serializes multiple args correctly", function()
     local module = {
-      multi = function(a, b, c) return a .. b .. c end,
+      multi = function(a, b, c)
+        return a .. b .. c
+      end,
     }
 
     local logged = make_logged("my_module", module)
@@ -76,7 +84,9 @@ describe("make_logged", function()
 
   it("handles functions with no arguments", function()
     local module = {
-      noop = function() return "done" end,
+      noop = function()
+        return "done"
+      end,
     }
 
     local logged = make_logged("my_module", module)

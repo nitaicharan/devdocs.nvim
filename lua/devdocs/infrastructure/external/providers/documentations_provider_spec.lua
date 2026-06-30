@@ -26,7 +26,9 @@ describe("documentations_provider", function()
 
       provider = require("devdocs.infrastructure.external.providers.documentations_provider")
       local result
-      provider.find_async("lua~5.4", function(r) result = r end)
+      provider.find_async("lua~5.4", function(r)
+        result = r
+      end)
 
       assert.same({ array = "<h1>Array</h1>" }, result)
     end)
@@ -40,19 +42,25 @@ describe("documentations_provider", function()
 
       provider = require("devdocs.infrastructure.external.providers.documentations_provider")
       local result = "not_called"
-      provider.find_async("lua~5.4", function(r) result = r end)
+      provider.find_async("lua~5.4", function(r)
+        result = r
+      end)
 
       assert.is_nil(result)
     end)
 
     it("asserts on non-string slug", function()
       provider = require("devdocs.infrastructure.external.providers.documentations_provider")
-      assert.has_error(function() provider.find_async(123, function() end) end)
+      assert.has_error(function()
+        provider.find_async(123, function() end)
+      end)
     end)
 
     it("asserts on non-function callback", function()
       provider = require("devdocs.infrastructure.external.providers.documentations_provider")
-      assert.has_error(function() provider.find_async("lua~5.4", "not a function") end)
+      assert.has_error(function()
+        provider.find_async("lua~5.4", "not a function")
+      end)
     end)
   end)
 end)
