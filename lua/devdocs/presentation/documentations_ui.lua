@@ -13,4 +13,4 @@ M.show = function(id)
   documentations_usecase.show(id)
 end
 
-return make_logged("uis/documentations", M)
+return make_logged("presentation/documentations_ui", M)

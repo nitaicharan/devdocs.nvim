@@ -6,11 +6,11 @@ M.setup = function()
 end
 
 M.ui = {
-  documentations = require("devdocs.infrastructure.uis.documentations_ui"),
+  documentations = require("devdocs.presentation.documentations_ui"),
 }
 
 M.api = {
-  documentations = require("devdocs.infrastructure.apis.documentations_api"),
+  documentations = require("devdocs.presentation.documentations_api"),
 }
 
 return M

@@ -26,4 +26,4 @@ M.install = function(slug)
   documentations_usecase.install(slug)
 end
 
-return make_logged("apis/documentations", M)
+return make_logged("presentation/documentations_api", M)
