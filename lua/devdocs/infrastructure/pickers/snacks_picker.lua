@@ -61,13 +61,16 @@ local M = {
         if item.version and item.version ~= "" then
           table.insert(meta, "v" .. item.version)
         end
+
         local size = bytes_util.format(item.db_size)
         if size then
           table.insert(meta, size)
         end
+
         if item.mtime and item.mtime > 0 then
           table.insert(meta, "updated " .. relative_time.from_epoch(item.mtime))
         end
+
         return render_row(item.name, meta)
       end,
       actions = {
@@ -85,7 +88,6 @@ local M = {
     assert(type(models) == "table", "models must be a table")
 
     local snacks = require("snacks")
-    local relative_time = require("devdocs.infrastructure.utils.relative_time_util")
     local bytes_util = require("devdocs.infrastructure.utils.bytes_util")
 
     local items = {}
@@ -103,14 +105,12 @@ local M = {
         if item.version and item.version ~= "" then
           table.insert(meta, "v" .. item.version)
         end
-        if item.doc_count and item.doc_count > 0 then
-          table.insert(meta, item.doc_count .. " entries")
-        end
+
         local size = bytes_util.format(item.db_size)
         if size then
           table.insert(meta, size)
         end
-        table.insert(meta, "installed " .. relative_time.format(item.installed_at))
+
         return render_row(item.name, meta)
       end,
       actions = {
