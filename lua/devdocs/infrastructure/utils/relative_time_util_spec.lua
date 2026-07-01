@@ -63,4 +63,18 @@ describe("relative_time_util", function()
   it("formats the 360-364 day window as months, not '0 years ago'", function()
     assert.equals("12 months ago", relative_time.format(ago(now, 360 * 86400), now))
   end)
+
+  it("from_epoch formats a past unix timestamp relative to now", function()
+    assert.equals("2 days ago", relative_time.from_epoch(now - 2 * 86400, now))
+  end)
+
+  it("from_epoch clamps future timestamps to 'just now'", function()
+    assert.equals("just now", relative_time.from_epoch(now + 120, now))
+  end)
+
+  it("from_epoch agrees with format for the same instant", function()
+    local epoch = now - 5 * 3600
+    local iso = os.date("%Y-%m-%dT%H:%M:%S+0000", epoch)
+    assert.equals(relative_time.format(iso, now), relative_time.from_epoch(epoch, now))
+  end)
 end)

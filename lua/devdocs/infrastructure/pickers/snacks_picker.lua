@@ -1,5 +1,15 @@
 local make_logged = require("devdocs.application.helpers.make_logged")
 
+-- Snacks format segments shared by the locks/registries rows:
+-- icon + highlighted name + dimmed, "·"-joined metadata.
+local function render_row(name, meta)
+  return {
+    { "󱔘 ", "SnacksPickerIcon" },
+    { name, "SnacksPickerLabel" },
+    { "  " .. table.concat(meta, " · "), "Comment" },
+  }
+end
+
 ---@type SelectorPort
 local M = {
   entries = function(callback, id, entries)
@@ -34,18 +44,32 @@ local M = {
     assert(type(registries) == "table", "registries must be a table")
 
     local snacks = require("snacks")
+    local relative_time = require("devdocs.infrastructure.utils.relative_time_util")
+    local bytes_util = require("devdocs.infrastructure.utils.bytes_util")
 
     local items = {}
     for idx, item in ipairs(registries) do
-      local text = string.format("[%s] version:%s", item.name, item.version)
-      local result = vim.tbl_extend("force", item, { idx = idx, text = text })
+      local result = vim.tbl_extend("force", item, { idx = idx, text = item.name })
       table.insert(items, result)
     end
 
     snacks.picker.pick({
       source = 'select',
       items = items,
-      format = "text",
+      format = function(item)
+        local meta = {}
+        if item.version and item.version ~= "" then
+          table.insert(meta, "v" .. item.version)
+        end
+        local size = bytes_util.format(item.db_size)
+        if size then
+          table.insert(meta, size)
+        end
+        if item.mtime and item.mtime > 0 then
+          table.insert(meta, "updated " .. relative_time.from_epoch(item.mtime))
+        end
+        return render_row(item.name, meta)
+      end,
       actions = {
         confirm = function(picker, item)
           picker:close()
@@ -75,11 +99,6 @@ local M = {
       source = 'select',
       items = items,
       format = function(item)
-        local segments = {
-          { "󱔘 ", "SnacksPickerIcon" },
-          { item.name, "SnacksPickerLabel" },
-        }
-
         local meta = {}
         if item.version and item.version ~= "" then
           table.insert(meta, "v" .. item.version)
@@ -92,9 +111,7 @@ local M = {
           table.insert(meta, size)
         end
         table.insert(meta, "installed " .. relative_time.format(item.installed_at))
-
-        table.insert(segments, { "  " .. table.concat(meta, " · "), "Comment" })
-        return segments
+        return render_row(item.name, meta)
       end,
       actions = {
         confirm = function(picker, item)

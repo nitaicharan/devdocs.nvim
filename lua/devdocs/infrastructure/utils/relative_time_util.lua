@@ -59,6 +59,14 @@ local M = {
 
     return humanize((now or os.time()) - epoch)
   end,
+
+  ---@param epoch number unix timestamp in seconds
+  ---@param now? integer epoch seconds to compare against (defaults to os.time())
+  ---@return string relative phrase, e.g. "3 weeks ago"
+  from_epoch = function(epoch, now)
+    assert(type(epoch) == "number", "epoch param must be a number")
+    return humanize((now or os.time()) - epoch)
+  end,
 }
 
 return make_logged("utils/relative_time_util", M)
